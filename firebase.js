@@ -21,14 +21,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app)
 
-// Set persistence to AsyncStorage
-setPersistence(auth, browserSessionPersistence)
-  .then(() => {
-    console.log("Auth persistence set successfully.");
-  })
-  .catch((error) => {
-    console.error("Error setting auth persistence:", error);
-  });
+
 
 
 export { auth , db , storage};

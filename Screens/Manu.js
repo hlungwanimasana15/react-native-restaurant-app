@@ -1,7 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { themeColors } from '../theme'
-import {categories} from '../constants/data'
 
 const Manu = () => {
   return (

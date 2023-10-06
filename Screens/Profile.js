@@ -1,10 +1,9 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
-import { auth, db } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core'
-import { doc, setDoc } from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfo } from '../Slices/SliceUsers';
 
 
 
@@ -18,38 +17,45 @@ const Registration = () => {
     const [address, setAddress] = useState('')
     const [cardNumber, setCardNumber] = useState('')
     const [cardName, setCardName] = useState('')
-
+    const { user } = useSelector(state => state.user)
     const navigation = useNavigation()
+    const [ userDetails,setUserDetails] = useState('')
+    const dispatch = useDispatch()
 
-    const handleSignUp =  () => {
+    const userId = user.uid
+    //get user information
+    const fetchData = async () => {
 
-        try {
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(async(userCredential) => {
-                    const user = userCredential.user;
-                    console.log(user)
-                    const ref = doc(db, 'usersInformation', user.uid)
-                    const docRef = await setDoc(ref,{ name })
-                    console.log('User registered:', user);
-                })
-                navigation.navigate('Login')
-        } catch (error) {
-            console.error('Error registering user:', error);
+        if (userId) {
+            try {
+                const userCollection = collection(db, 'usersInformation');
+                const userDocRef = doc(userCollection, userId);
+                const userDocSnapshot = await getDoc(userDocRef);
+                if (userDocSnapshot.exists()) {
+                    const userData = userDocSnapshot.data();
+                    setUserDetails(userData);
+                    dispatch(setUserInfo(userData));
+                } else {
+                    console.log('Failed to get user infromation')
+                }
+                
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setIsLoading(false);
+            }
         }
 
     }
+    console.log(userDetails);
+
+    const SaveChanges = () => {
 
 
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-                navigation.navigate("Login")
-            }
-        })
-
-        return unsubscribe
-    }, [])
+    }
+ useEffect(() =>{
+    fetchData()
+ },[])
 
     return (
 
@@ -60,6 +66,7 @@ const Registration = () => {
                 source={require('../assets/roosi.jpg')}
                 style={styles.backgroundImage}
             >
+                <Text style={{ fontSize: 50, fontStyle: 'bold', color: 'white' }}>Hi:{name}</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         placeholder='Name'
@@ -120,10 +127,10 @@ const Registration = () => {
                 </View>
                 <View>
                     <TouchableOpacity
-                        onPress={() => handleSignUp()}
+                        onPress={() => SaveChanges()}
                         style={[styles.button, styles.buttonOutline]}
                     >
-                        <Text style={styles.buttonOutlineText}>Register</Text>
+                        <Text style={styles.buttonOutlineText}>Edit</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -162,15 +169,20 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#0783f9',
-
-        paddingHorizontal: 15,
+        paddingHorizontal: 10,
         borderRadius: 10,
+        width: '30%',
+        justifyContent: "center",
+        alignItems: 'center',
     },
     buttonOutline: {
         backgroundColor: 'white',
-        margin: 5,
+        margin: 10,
         borderColor: '#078f9',
         borderWidth: 2,
+        paddingLeft: 15,
+        justifyContent: "center",
+        alignItems: 'center',
     },
     buttonText: {
         color: 'white',
