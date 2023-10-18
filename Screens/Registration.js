@@ -29,7 +29,7 @@ const Registration = () => {
                     const user = userCredential.user;
                     console.log(user)
                     const ref = doc(db, 'usersInformation', user.uid)
-                    const docRef = await setDoc(ref,{ name })
+                    const docRef = await setDoc(ref,{ name,email,surname,contact,address,cardNumber,cardName })
                     console.log('User registered:', user);
                 })
                 navigation.navigate('Login')
@@ -37,20 +37,7 @@ const Registration = () => {
             console.error('Error registering user:', error);
         }
 
-    }
-
-
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-                navigation.navigate("Login")
-            }
-        })
-
-        return unsubscribe
-    }, [])
-
+    }  
     return (
 
 

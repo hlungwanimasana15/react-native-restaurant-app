@@ -3,29 +3,68 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserInfo } from '../Slices/SliceUsers';
+import setData from '../Slices/dataSlice';
+import { auth, db } from '../firebase';
+import { collection, doc, getDoc,updateDoc } from 'firebase/firestore';
 
+const Profile = () => {
 
-
-const Registration = () => {
-
-    const [email, setEmail] = useState('')
+     const { data } =useSelector(state => state.data)
+    const [userDetails, setUserDetails] = useState('')
+    const [email, setEmail] = useState(userDetails.email)
     const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
-    const [surname, setSurname] = useState('')
-    const [contact, setContact] = useState('')
-    const [address, setAddress] = useState('')
-    const [cardNumber, setCardNumber] = useState('')
-    const [cardName, setCardName] = useState('')
-    const { user } = useSelector(state => state.user)
+    const [name, setName] = useState(userDetails.name)
+    const [surname, setSurname] = useState(userDetails.surname)
+    const [contact, setContact] = useState(userDetails.contact)
+    const [address, setAddress] = useState(userDetails.address)
+    const [cardNumber, setCardNumber] = useState(userDetails.cardNumber)
+    const [cardName, setCardName] = useState(userDetails.cardName)
+    const [loading, setIsLoading] = useState('')
+    
+    const user = auth.currentUser
+
+    console.log('---------------',data);
+
     const navigation = useNavigation()
-    const [ userDetails,setUserDetails] = useState('')
+
     const dispatch = useDispatch()
 
-    const userId = user.uid
-    //get user information
-    const fetchData = async () => {
 
+    const EditUserInfo =async () => {
+
+        try {
+            const userId = user.uid;
+            if (userId) {
+                const userCollection = collection(db, 'usersInformation');
+                const userDocRef = doc(userCollection, userId);
+
+                // Create an object with the updated user information
+                const updatedUser = {
+                    email:email,
+                    name:name,
+                    surname:surname,
+                    contact:contact,
+                    address:address,
+                    cardNumber:cardNumber,
+                    cardName:cardName,
+                };
+
+               
+                await updateDoc(userDocRef, updatedUser);
+
+                // Update the state to reflect the changes
+                setUserDetails(updatedUser);
+
+                console.log('User information updated successfully');
+            }
+        } catch (error) {
+            console.error('Error updating user information:', error);
+        }
+
+    }
+
+    const fetchData = async () => {
+        const userId = user.uid
         if (userId) {
             try {
                 const userCollection = collection(db, 'usersInformation');
@@ -33,12 +72,14 @@ const Registration = () => {
                 const userDocSnapshot = await getDoc(userDocRef);
                 if (userDocSnapshot.exists()) {
                     const userData = userDocSnapshot.data();
-                    setUserDetails(userData);
-                    dispatch(setUserInfo(userData));
+                    let userInfo = userData
+                    // setUserDetails(userInfo)
+                    dispatch(setData(userInfo));
+                    console.log( userInfo);
                 } else {
                     console.log('Failed to get user infromation')
                 }
-                
+
             } catch (err) {
                 console.log(err)
             } finally {
@@ -47,26 +88,30 @@ const Registration = () => {
         }
 
     }
-    console.log(userDetails);
 
-    const SaveChanges = () => {
+    useEffect(() => {
+        // const unsubscribe = onAuthStateChanged(auth, u => {
+        //     navigation.navigate("Home")
+        //     dispatch(setUser(u))
+        // })
+        fetchData()
 
+        // return unsubscribe
+    }, [])
 
-    }
- useEffect(() =>{
-    fetchData()
- },[])
 
     return (
 
 
         <KeyboardAvoidingView style={styles.container}
-            behavior='padding'>
+            behavior='padding'
+
+        >
             <ImageBackground
                 source={require('../assets/roosi.jpg')}
                 style={styles.backgroundImage}
             >
-                <Text style={{ fontSize: 50, fontStyle: 'bold', color: 'white' }}>Hi:{name}</Text>
+                <Text style={{ fontSize: 50,  color: 'white' }}>Hi:{userDetails.name}</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         placeholder='Name'
@@ -125,9 +170,10 @@ const Registration = () => {
 
                     ></TextInput>
                 </View>
-                <View>
+                <View style={styles.buttons}>
+
                     <TouchableOpacity
-                        onPress={() => SaveChanges()}
+                        onPress={() => EditUserInfo()}
                         style={[styles.button, styles.buttonOutline]}
                     >
                         <Text style={styles.buttonOutlineText}>Edit</Text>
@@ -140,7 +186,7 @@ const Registration = () => {
     )
 }
 
-export default Registration
+export default Profile
 
 const styles = StyleSheet.create({
 
@@ -170,7 +216,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#0783f9',
         paddingHorizontal: 10,
-        borderRadius: 10,
+        borderRadius: 5,
         width: '30%',
         justifyContent: "center",
         alignItems: 'center',
@@ -185,7 +231,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     buttonText: {
-        color: 'white',
+        color: '#F0978C',
         fontWeight: '700',
         fontSize: 16,
     },
@@ -200,5 +246,9 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    buttons: {
+        flexDirection: 'row',
+
+    }
 
 })

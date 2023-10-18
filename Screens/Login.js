@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native'
 import { auth, db } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core'
 import { collection, doc, getDoc } from 'firebase/firestore';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../Slices/SliceUsers';
+import { setUserInfo } from '../Slices/dataSlice';
 
-const { user } = useSelect
+
+
 
 const Login = () => {
 
@@ -17,87 +19,87 @@ const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [isLoading,setIsLoading ]=useState('')
-    const userId = user.uid
-
-    
+    const [isLoading, setIsLoading] = useState('')
 
 
 
+    const navigateToReg = () => {
+        navigation.navigate("Registration")
+    }
 
-const handleSignUp = () => {
-    navigation.navigate("Registration")
-}
+    const handleLogin = async () => {
 
-const handleLogin = () => {
-
-    signInWithEmailAndPassword(auth, email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
             navigation.navigate("Home")
-            console.log('Logged in with:', user.email);
-        })
-        .catch(error => alert(error.message))
-}
+            console.log('Logged in with details');
+            // const user = auth.currentUser
 
-useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-        
-            navigation.navigate("Home")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+  
+    useEffect(() => {
+        const LoggedInUser = () => {
+            const user = auth.currentUser
             dispatch(setUser(user))
-    
-    })
+            //console.log('=============', user);
+        }
+        return LoggedInUser()
 
-    return unsubscribe
-}, [])
-
-return (
+    }, [])
 
 
-    <KeyboardAvoidingView style={styles.container}
-        behavior='padding'>
-        <ImageBackground
-            source={require('../assets/2nd.jpg')}
-            style={styles.backgroundImage}
-        >
-            <View style={styles.containerinput}>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        placeholder='Email'
-                        value={email}
-                        onChangeText={text => setEmail(text)}
 
-                        style={styles.input}
-                    ></TextInput>
-                    <TextInput
-                        placeholder='Password'
-                        value={password}
-                        onChangeText={text => setPassword(text)}
-                        style={styles.input}
+    return (
 
-                    ></TextInput>
+
+        <KeyboardAvoidingView style={styles.container}
+            behavior='padding'>
+            <ImageBackground
+                source={require('../assets/2nd.jpg')}
+                style={styles.backgroundImage}
+            >
+                <View style={styles.containerinput}>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            placeholder='Email'
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+
+                            style={styles.input}
+                        ></TextInput>
+                        <TextInput
+                            placeholder='Password'
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                            style={styles.input}
+
+                        ></TextInput>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            onPress={() => handleLogin()}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonOutlineText}>Login</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.RegText}> Don't have an account ? Register now</Text>
+                        <TouchableOpacity
+                            onPress={navigateToReg}
+                            style={[styles.button, styles.buttonOutline]}
+                        >
+                            <Text style={styles.buttonOutlineText}>Register</Text>
+                        </TouchableOpacity>
+
+                    </View>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={() => handleLogin()}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonOutlineText}>Login</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.RegText}> Don't have an account ? Register now</Text>
-                    <TouchableOpacity
-                        onPress={handleSignUp}
-                        style={[styles.button, styles.buttonOutline]}
-                    >
-                        <Text style={styles.buttonOutlineText}>Register</Text>
-                    </TouchableOpacity>
+            </ImageBackground >
+        </KeyboardAvoidingView>
 
-                </View>
-            </View>
-        </ImageBackground >
-    </KeyboardAvoidingView>
-
-)
+    )
 }
 
 export default Login

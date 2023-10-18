@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 
 
-const FoodItem = ({ name, price, volume, item }) => {
+const FoodItem = ({ item }) => {
 
 
   const navigation = useNavigation();
@@ -17,7 +17,7 @@ const FoodItem = ({ name, price, volume, item }) => {
       <View style={styles.FoodInfo}>
         <View style={{ alignItems: 'center', marginTop: 10 }} >
           <Image style={{
-            width: 150, height: 150, flex: 'row', borderRadius: 10,
+            width: 10, height: 150, borderRadius: 10,
           }} source={item.image} />
         </View>
         <View style={{ }} >
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 
   manuItem: {
     borderRadius: 20,
-    backgroundColor: '#fae8d3',
+    backgroundColor: '#f6efef',
     width: 170,
     height: 280,
     shadowColor: 'black',

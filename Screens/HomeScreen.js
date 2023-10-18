@@ -1,62 +1,98 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { categories, coffeeItems } from '../constants/index'
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import FoodItem from '../Compounents/FoodItem';
+import { db } from '../firebase';
+import { doc, setDoc, collection, getDoc } from 'firebase/firestore';
 
+const HomeScreen = () => {
 
-
-const HomeScreen = ( ) => {
   const navigation = useNavigation();
   const [activeCategory, setActiveCategory] = useState(1);
 
+
+
+  //   //get user information
+  //   const fetchData = async () => {
+
+
+  //           try {
+  //               const userCollection = collection(db, 'FoodItem');
+  //               const userDocRef = doc(userCollection, 'Qs2sOmUDfqHhY18vfsIO');
+  //               const userDocSnapshot = await getDoc(userDocRef);
+  //               if (userDocSnapshot.exists()) {
+  //                   const userData = userDocSnapshot.data();
+  //                  console.log('sadasd',userData.category);
+  //               } else {
+  //                   console.log('Failed to get user infromation')
+  //               }
+
+  //           } catch (err) {
+  //               console.log(err)
+  //           } finally {
+  //               setIsLoading(false);
+  //           }
+
+
+  //   }
+
+  //   useEffect(() => {
+  //     fetchData()
+  // }, [])
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
+
       <StatusBar />
-      <Image source={require('../assets/zoomed.jpg')}
-        style={styles.Image}
+      <View style={{ flex: 1 }} >
+        < View style={{ pasition: 'absolute', left: 0, right: 0, top: 0 }}>
+          {/* Categories */}
+          <View style={styles.manu} >
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={categories}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => {
+                isActive = item.id == activeCategory;
+                let activeTextClass = isActive ? 'text-white' : 'text-gray-700';
+                return (
+                  <TouchableOpacity
+                    onPress={() => setActiveCategory(item.id)}
+                    style={styles.categoryStyle}
+                  >
+                    <Text style={{ fontWeight: 'bold', ...activeTextClass }}>{item.title}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View >
+          <Image source={require('../assets/element.jpg')}
+            style={styles.Image}
 
-      />
-      <SafeAreaView  >
-
-        <View style={styles.header} >
-          <View style={styles.maps} >
-            <Text style={styles.location}>MiLls</Text>
-          </View>
-        </View>
-
-        {/* Categories */}
-        <View style={styles.manu} >
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={categories}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => {
-              isActive = item.id == activeCategory;
-              let activeTextClass = isActive ? 'text-white' : 'text-gray-700';
-              return (
-                <TouchableOpacity
-                  onPress={() => setActiveCategory(item.id)}
-                  style={styles.categoryStyle}
-                >
-                  <Text style={{ fontWeight: 'bold', ...activeTextClass }}>{item.title}</Text>
-                </TouchableOpacity>
-              );
-            }}
           />
-        </View>
+          <SafeAreaView  >
 
-      </SafeAreaView >
+            <View style={styles.header} >
+              <View style={styles.maps} >
+                <Text style={styles.location}></Text>
+              </View>
+            </View>
+          </SafeAreaView >
+        </ View>
+
+      </View>
       <View style={styles.carousel}>
         <ScrollView
           vertical
-          showsVerticalScrollIndicator
-          contentContainerStyle={{ paddingBottom: 30, flexWrap: 'wrap', flexDirection: 'row' }}
+          showsVerticalScrollIndicator={true}
+          contentContainerStyle={{ paddingBottom: 30, flexWrap: 'wrap', flexDirection: 'row', }}
         >
+
           {[coffeeItems, coffeeItems, coffeeItems, coffeeItems].map((item, index) => {
             return (
               <FoodItem
@@ -70,7 +106,7 @@ const HomeScreen = ( ) => {
           })}
         </ScrollView>
       </View>
-    </View>
+    </View >
 
   )
 }
@@ -84,10 +120,10 @@ const styles = StyleSheet.create({
   },
   Image: {
     width: '100%',
-    position: 'absolute',
+    position: 'relative',
     top: -15,
-    height: '30%',
-    resizeMode: '',
+    height: '60%',
+    resizeMode: 'center',
   },
   header: {
 
@@ -123,9 +159,9 @@ const styles = StyleSheet.create({
   },
   manu: {
     paddingHorizontal: 5,
-    marginTop: 150,
+    marginTop: -5,
     marginBottom: 30,
-    
+
 
   },
   categoryStyle: {
@@ -141,6 +177,9 @@ const styles = StyleSheet.create({
 
   carousel: {
     marginTop: -60,
+    marginBottom: -170,
+    paddingTop:30.
+    // paddingTop:500,
   },
 
 

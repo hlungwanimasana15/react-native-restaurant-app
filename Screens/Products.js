@@ -5,17 +5,49 @@ import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { AddToCart } from '../Slices/CartReducer';
+import { useDispatch } from 'react-redux';
+
 
 const Products = (props) => {
+
+const dispatch = useDispatch();
+
+  const AddItemToCart = (item) => {
+    dispatch(AddToCart(item));
+  }
+
+  // const cart = useSelector((state) => state.cart.cart)
+  // console.log(cart);
+
+
+
+  const [quantity, setQuantity] = useState(1);
+
   const item = props.route.params;
   const [size, setSize] = useState('small');
+
+
   const navigation = useNavigation();
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+    console.log(quantity)
+  };
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
 
   return (
     <View style={styles.container} >
       <StatusBar style="light" />
       <Image
-        source={require('../assets/backdrop.jpg')}
+        source={require('../assets/vage.webp')}
         style={styles.backgroundImage}
       />
       <SafeAreaView style={styles.safeArea}>
@@ -89,11 +121,14 @@ const Products = (props) => {
               <Text style={styles.volumeText}>{item.volume}</Text>
             </View>
             <View style={styles.quantityButtons}>
-              <TouchableOpacity style={styles.quantityButton}>
+              <TouchableOpacity style={styles.quantityButton}
+                onPress={handleDecrease}>
                 <AntDesign name="minuscircleo" size={24} color="black" />
               </TouchableOpacity>
-              <Text style={styles.quantityValue}>2</Text>
-              <TouchableOpacity style={styles.quantityButton}>
+              <Text style={styles.quantityValue}>{quantity}</Text>
+              <TouchableOpacity
+                style={styles.quantityButton}
+                onPress={handleIncrease}>
                 <AntDesign name="pluscircleo" size={24} color="black" />
               </TouchableOpacity>
             </View>
@@ -110,8 +145,9 @@ const Products = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
+         
           <TouchableOpacity style={styles.buyNowButton}
-            onPress={() => navigation.navigate('Cart', { ...item })}>
+            onPress={() => AddItemToCart(item)}>
 
             <Text style={styles.buyNowText}>Buy now</Text>
           </TouchableOpacity>
@@ -126,6 +162,7 @@ export default Products
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom:80,
 
   },
   backgroundImage: {
@@ -154,7 +191,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   imageContainer: {
-    shadowColor: '#f3b1a9',
+    shadowColor: '#f38d8d',
     shadowRadius: 30,
     shadowOffset: { width: 0, height: 30 },
     shadowOpacity: 0.9,
@@ -169,7 +206,7 @@ const styles = StyleSheet.create({
   starContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f3b1a9',
+    backgroundColor: '#f38d8d',
     width: 60,
 
   },
@@ -191,12 +228,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   coffeeName: {
-    color: '#f3b1a9',
+    color: '#f38d8d',
     fontSize: 24,
     fontWeight: 'bold',
   },
   coffeePrice: {
-    color: '#f3b1a9',
+    color: '#f38d8d',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -205,7 +242,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   sizeText: {
-    color: '#f3b1a9',
+    color: '#f38d8d',
     fontSize: 20,
   },
   sizeButtons: {
@@ -220,7 +257,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   activeSizeButton: {
-    backgroundColor: '#f3b1a9',
+    backgroundColor: '#f38d8d',
   },
   activeSizeText: {
     color: 'white',
@@ -233,7 +270,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   aboutText: {
-    color: '#f3b1a9',
+    color: '#f38d8d',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -261,7 +298,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   volumeText: {
-    color: '#f3b1a9',
+    color: '#f38d8d',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -278,7 +315,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   quantityValue: {
-    color: '#f3b1a9',
+    color: '#f38d8d',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -293,7 +330,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
   },
   buyNowButton: {
-    backgroundColor: '#f3b1a9',
+    backgroundColor: '#f38d8d',
     borderRadius: 15,
     paddingVertical: 10,
     paddingHorizontal: 10,
