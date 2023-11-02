@@ -60,12 +60,12 @@ const dispatch = useDispatch();
           </TouchableOpacity>
         </View>
         <View style={styles.imageContainer}>
-          <Image source={item.image} style={styles.coffeeImage} />
+          <Image source={{ uri: item.image}} style={styles.coffeeImage} />
         </View>
         <View style={styles.starContainer}>
           <View style={styles.starBackground}>
             <AntDesign name="staro" size={15} color="white" />
-            <Text style={styles.starText}>{item.stars}</Text>
+            <Text style={styles.starText}>{item.reviews}</Text>
           </View>
         </View>
         <View style={styles.infoContainer}>
@@ -74,7 +74,7 @@ const dispatch = useDispatch();
         </View>
         <View style={styles.aboutContainer}>
           <Text style={styles.aboutText}>About</Text>
-          <Text style={styles.aboutDescription}>{item.desc}</Text>
+          <Text style={styles.aboutDescription}>{item.discr}</Text>
         </View>
         <View style={styles.quantityContainer}>
           <View style={styles.volumeContainer}>

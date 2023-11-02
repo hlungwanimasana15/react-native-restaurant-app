@@ -6,7 +6,7 @@ import { addDoc, collection, doc, getDoc, set, setDoc } from 'firebase/firestore
 import { auth, db } from '../firebase';
 import { useStripe } from '@stripe/stripe-react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { AntDesign } from '@expo/vector-icons';
 
 
 const Checkout = () => {
@@ -110,7 +110,13 @@ const Checkout = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Checkout</Text>
+      <View style={styles.Header}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <AntDesign name="arrowleft" size={25} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.title}>Checkout</Text>
+      </View>
+      
 
       <View style={styles.addressSection}>
         <Text style={styles.sectionTitle}>Drop-off Address<MaterialIcons name="delivery-dining" size={24} color="black" /></Text>
@@ -216,6 +222,9 @@ const styles = StyleSheet.create({
   buttonText:{
     color: 'white', 
     fontWeight: 'bold', 
+  },
+  Header:{
+    flexDirection: 'row'
   }
 });
 

@@ -17,6 +17,10 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../Slices/SliceUsers';
+import maincourse from '../Compounents/Maincourse';
+import Beverages from '../Compounents/Beverages';
+import Desserts from '../Compounents/Starters';
+import Starters from '../Compounents/Starters';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,35 +47,6 @@ export default function Navigation() {
     perc()
   },[])
   
-    // return (
-   
-    //   <NavigationContainer >
-      
-    //     <Stack.Navigator initialRouteName="Welcome" >
-  
-    //       {/* <Stack.Screen name="Login" component={Login}  options={{
-    //        headerShown: false}} />
-    //       <Stack.Screen name="Registration" component={Registration}   options={{ */}
-    //        {/* headerShown: false}}/> */}
-    //       <Stack.Screen name="TabNavigation" component={Tabnavigation}  options={{
-    //        headerShown: false}} />
-    //       <Stack.Screen name="Manu" component={Manu}   options={{
-    //        headerShown: false}}/>
-    //       <Stack.Screen name="Cart" component={Cart}  options={{
-    //        headerShown: false}}/>
-    //       <Stack.Screen name="Products" component={Products}  options={{
-    //        headerShown: false}}/>
-    //       <Stack.Screen name="Checkout" component={Checkout} options={{
-    //        headerShown: false}} />
-    //        {/* <Stack.Screen name="Welcome" component={Welcome}  options={{
-    //        headerShown: false}}/>  */}
-  
-    //     </Stack.Navigator>
-      
-    
-    //   </NavigationContainer>
-    // )
-  
     return (
    
       <NavigationContainer >
@@ -91,6 +66,14 @@ export default function Navigation() {
           <Stack.Screen name="Products" component={Products}  options={{
            headerShown: false}}/>
           <Stack.Screen name="Checkout" component={Checkout} options={{
+           headerShown: false}} />
+            <Stack.Screen name="Desserts" component={Desserts} options={{
+           headerShown: false}} />
+           <Stack.Screen name="Beverages" component={Beverages} options={{
+           headerShown: false}} />
+           <Stack.Screen name="Starters" component={Starters} options={{
+           headerShown: false}} />
+           <Stack.Screen name="Maincourse" component={maincourse} options={{
            headerShown: false}} />
            <Stack.Screen name="Welcome" component={Welcome}  options={{
            headerShown: false}}/> 

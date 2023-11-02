@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     buttonReg:{
-        backgroundColor: '#e9cdb8',
+        backgroundColor: '#3a312b',
         padding: 15,
         borderRadius: 15,
         width: 300,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         height:'auto'
     },
     buttonLog:{
-        backgroundColor: '#daaa88',
+        backgroundColor: '#bd9a6f',
         padding: 15,
         borderRadius: 15,
         marginBottom: 10,

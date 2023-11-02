@@ -126,10 +126,12 @@ const Cart = ({ item }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.Header}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <AntDesign name="arrowleft" size={35} color="black" />
+            <AntDesign name="arrowleft" size={25} color="black" />
           </TouchableOpacity>
       <Text style={styles.title}>Shopping Cart</Text>
+      </View>
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id}
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    paddingTop:0,
+    paddingTop:80,
   },
   title: {
     fontSize: 24,
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
     Color: '#897979',
     justifyContent:'center',
     alignItems: 'center',
+ 
 
   },
   cartList: {
@@ -215,7 +218,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   quantityValue: {
-    color: '#f3b1a9',
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -250,6 +253,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  Header:{
+    flexDirection: 'row'
+  }
 
 });
 
