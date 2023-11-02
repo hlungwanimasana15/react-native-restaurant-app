@@ -14,29 +14,27 @@ const FoodItem = ({ item }) => {
 
   return (
     <View style={styles.manuItem}>
-      <View style={styles.FoodInfo}>
-        <View style={{ alignItems: 'center', marginTop: 10 }} >
-          <Image style={{
-            width: 10, height: 150, borderRadius: 10,
-          }} source={item.image} />
-        </View>
-        <View style={{ }} >
-          <Text style={{ lineHeight: 20, fontSize: 20, color: '#d4bb7e', fontWeight: 'bold', zIndex: 1, marginTop: 3, marginBottom: 0 }}>{item.name}</Text>
-          <Text style={{}}><AntDesign name="staro" size={24} color="black" />{item.stars}</Text>
-          <Text style={{}}>Price:R{item.price}</Text>
-          <View style={styles.priceContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Products', { ...item })}
-              style={styles.plusButton}>
-              <AntDesign name="plus" size={30} color="black" />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-
+      <View style={{ alignItems: 'center', marginTop: 35 }} >
+        <Image style={{ width: 150, height: 150, borderRadius: 5 }} source={item.image} />
       </View>
-
-    </View >
+    
+        <View style={styles.discription}>
+        <Text style={{ lineHeight: 20, fontSize: 20, color: 'black', fontWeight: 'bold', zIndex: 1, marginTop: 3, marginBottom: 0 ,marginLeft:-8}}>{item.name}</Text>
+        <Text  style={{ paddingTop:5,marginLeft:-8}} ><AntDesign name="staro" size={24} color="gold" style={{ paddingTop:5}}  />{item.stars}</Text>
+        <Text  style={{ paddingTop:5,marginLeft:-8}} >Price:R{item.price}</Text>
+        </View>
+        
+        <View style={styles.priceContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Products', { ...item })}
+          style={{justifyContent: 'flex-end', alignItems: 'flex-end',marginBottom: 7,marginRight:-15}}
+          >
+          <AntDesign name="plus" size={35} color="black" style={{ alignSelf: 'flex-end',paddingBottom:5}} />
+        </TouchableOpacity>
+      </View>
+      </View>
+     
+  
   )
 }
 
@@ -45,40 +43,45 @@ export default FoodItem
 const styles = StyleSheet.create({
 
   manuItem: {
-    borderRadius: 20,
-    backgroundColor: '#f6efef',
+    borderRadius: 30,
+    backgroundColor: 'white',
     width: 170,
     height: 280,
-    shadowColor: 'black',
-    marginLeft: 25,
-    marginBottom: 10,
+    justifyContent: 'center',
+    marginLeft: 20,
+    marginRight: 15,
+    marginTop: 10,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    shadowColor: '#',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
 
-  },
-  FoodInfo: {
-    color: 'black',
-
-  },
-  Details: {
-    fontSize: 20,
-    color: '#d4bb7e',
-    zIndex: 1,
-    marginTop: 3,
-    marginBottom: 12,
-    flexDirection: '',
 
   },
   plusButton: {
     padding: 15,
     backgroundColor: 'white',
-    borderRadius: 50,
+    borderRadius: 20,
+    justifyContent: 'flex-end',
 
   },
-  priceContainer: {
-    
-    justifyContent:'flex-end',
-    alignItems: 'flex-end',
-    marginBottom: 10,
-    width:"100%",
-  },
+  // priceContainer: {
+
+  //   justifyContent: 'flex-end',
+  //   alignItems: 'flex-end',
+  //   marginBottom: 20,
+  //   width: "100%",
+  //   marginRight:-10,
+    // paddingBottom:-10
+  // },
+  discription:{
+    justifyContent: 'space-around', 
+    fontSize:15,
+    marginVertical: 10,
+  }
 
 })

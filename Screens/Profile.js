@@ -5,51 +5,69 @@ import { useNavigation } from '@react-navigation/core'
 import { useDispatch, useSelector } from 'react-redux';
 import setData from '../Slices/dataSlice';
 import { auth, db } from '../firebase';
-import { collection, doc, getDoc,updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, updateDoc, storage, query, where, getDocs } from 'firebase/firestore';
 
 const Profile = () => {
 
-     const { data } =useSelector(state => state.data)
+    const { data } = useSelector(state => state.data)
     const [userDetails, setUserDetails] = useState('')
-    const [email, setEmail] = useState(userDetails.email)
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [name, setName] = useState(userDetails.name)
-    const [surname, setSurname] = useState(userDetails.surname)
-    const [contact, setContact] = useState(userDetails.contact)
-    const [address, setAddress] = useState(userDetails.address)
-    const [cardNumber, setCardNumber] = useState(userDetails.cardNumber)
-    const [cardName, setCardName] = useState(userDetails.cardName)
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
+    const [contact, setContact] = useState('')
+    const [address, setAddress] = useState('')
+    const [cardNumber, setCardNumber] = useState('')
+    const [cardName, setCardName] = useState('')
     const [loading, setIsLoading] = useState('')
-    
+    const [userData, setUserData] = useState(null);
+
     const user = auth.currentUser
 
-    console.log('---------------',data);
+
+
 
     const navigation = useNavigation()
 
     const dispatch = useDispatch()
 
+    // const OrderHistory = async () =>{
+    //     const currentUser = getAuth().currentUser;
 
-    const EditUserInfo =async () => {
+    //     // Get the UID of the logged-in user
+    //     const uid = currentUser.uid;
+
+
+    //     const userRef = collection(db, "orders");
+    //     const querySnapshot = await getDocs(query(userRef, where("uid", "==", uid)));
+
+    //     // Display the fetched information
+    //     querySnapshot.forEach((doc) => {
+    //       const userData = doc.data();
+    //       console.log(userData);
+    //     });
+    // }
+
+    const EditUserInfo = async () => {
 
         try {
-            const userId = user.uid;
-            if (userId) {
+
+            if (user.uid) {
                 const userCollection = collection(db, 'usersInformation');
-                const userDocRef = doc(userCollection, userId);
+                const userDocRef = doc(userCollection, user.uid);
 
                 // Create an object with the updated user information
                 const updatedUser = {
-                    email:email,
-                    name:name,
-                    surname:surname,
-                    contact:contact,
-                    address:address,
-                    cardNumber:cardNumber,
-                    cardName:cardName,
+                    email: email,
+                    name: name,
+                    surname: surname,
+                    contact: contact,
+                    address: address,
+                    cardNumber: cardNumber,
+                    cardName: cardName,
                 };
 
-               
+
                 await updateDoc(userDocRef, updatedUser);
 
                 // Update the state to reflect the changes
@@ -64,18 +82,19 @@ const Profile = () => {
     }
 
     const fetchData = async () => {
-        const userId = user.uid
-        if (userId) {
+
+        if (user.uid) {
             try {
                 const userCollection = collection(db, 'usersInformation');
-                const userDocRef = doc(userCollection, userId);
+                const userDocRef = doc(userCollection, user.uid);
                 const userDocSnapshot = await getDoc(userDocRef);
                 if (userDocSnapshot.exists()) {
                     const userData = userDocSnapshot.data();
                     let userInfo = userData
                     // setUserDetails(userInfo)
                     dispatch(setData(userInfo));
-                    console.log( userInfo);
+                    console.log('userinfo', userInfo);
+
                 } else {
                     console.log('Failed to get user infromation')
                 }
@@ -89,6 +108,7 @@ const Profile = () => {
 
     }
 
+
     useEffect(() => {
         // const unsubscribe = onAuthStateChanged(auth, u => {
         //     navigation.navigate("Home")
@@ -97,6 +117,23 @@ const Profile = () => {
         fetchData()
 
         // return unsubscribe
+
+        const fetchOrderHistory = async () => {
+            const currentUser = getAuth().currentUser;
+            const uid = currentUser.uid;
+
+            const db = getFirestore();
+            const userRef = collection(db, 'orders');
+            const querySnapshot = await getDocs(query(userRef, where('uid', '==', uid)));
+
+            querySnapshot.forEach((doc) => {
+                const fetchedUserData = doc.data();
+                setUserData(fetchedUserData);
+                console.log('----------',fetchedUserData)
+            });
+        }
+        fetchOrderHistory();
+
     }, [])
 
 
@@ -111,7 +148,22 @@ const Profile = () => {
                 source={require('../assets/roosi.jpg')}
                 style={styles.backgroundImage}
             >
-                <Text style={{ fontSize: 50,  color: 'white' }}>Hi:{userDetails.name}</Text>
+
+                <Text style={{ fontSize: 50, color: 'white' }}>Hi:</Text>
+
+                <Text style={{ fontSize: 30, color: 'white',paddingBottom:'auto',padding:10 }}>Orders history</Text>
+                <View style={styles.historyContainer}>
+                    {userData ? (
+                        <View >
+                            <Text >Name: {userData.name}</Text>
+                            <Text>price: {userData.price}</Text>
+                            <Text>quantity: {userData.quantity}</Text>
+                            <Text>Volume: {userData.volume}</Text>
+                        </View>
+                    ) : (
+                        <Text>Loading user data...</Text>
+                    )}
+                </View>
                 <View style={styles.inputContainer}>
                     <TextInput
                         placeholder='Name'
@@ -249,6 +301,19 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
 
+    },
+    historyContainer:{
+        backgroundColor: 'white',
+        padding: 16,
+        paddingLeft:10,
+        borderRadius: 10,
+        margin: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 3,
+        marginBottom: 5,
     }
 
 })

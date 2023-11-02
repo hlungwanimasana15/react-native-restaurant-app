@@ -2,30 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput, Button } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { collection, doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { addDoc, collection, doc, getDoc, set, setDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 import { useStripe } from '@stripe/stripe-react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 
 const Checkout = () => {
-
+  const { params } = useRoute();
   const stripe = useStripe();
-
+  const { user } = useSelector(state => state.user)
 
   const [name, setName] = useState('')
-  const { params } = useRoute();
-
-  const cart = params
-
-
-  const navigation = useNavigation();
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user);
   const [dropOffAddress, setDropOffAddress] = useState('');
   const [selectedValue, setSelectedValue] = useState('default');
   const [isLoading, setIsLoading] = useState(true)
   const [userDetails, setUserDetails] = useState({})
+  const cart = params
+  console.log('============', params)
+
+
+  const navigation = useNavigation();
+  // const user = useSelector(state => state.user);
+
 
 
   const fetchData = async () => {
@@ -53,34 +53,42 @@ const Checkout = () => {
     }
 
   }
+  //  const user = auth.currentUser
+  // console.log('ppppppppppppppppppppp',user.uid);
+  const handlePlaceOrder = async () => {
 
+    const ordersRef = doc(db, 'orders', user.uid);
+    const ordersInfo = { user, params }
+    await setDoc(ordersRef, {
 
-  const handlePlaceOrder = () => {
-    // Implement the logic to place the order
-    // You can navigate to a confirmation screen or perform other actions here
+      dish: params,
+      userId: user.uid
+
+    })
   };
-  console.log( name);
+
+  console.log(name);
 
   const CardDetails = async () => {
-     let name = {
-      name:'shops'
-     }
+    let name = {
+      name: 'shops'
+    }
     try {
       const response = await fetch("https://backend-at6b.onrender.com/pay", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':'Bearer pk_test_51O0fWbFLBlgdGDy2gYhAzyg8sbLzN3ZhRvgKdM1srkOSxHT3TFEqcFqcV9Iwg450jNWMKzlStz8CefPnYR4Xi3Ha00z5e1EcSF'
+          'Authorization': 'Bearer pk_test_51O0fWbFLBlgdGDy2gYhAzyg8sbLzN3ZhRvgKdM1srkOSxHT3TFEqcFqcV9Iwg450jNWMKzlStz8CefPnYR4Xi3Ha00z5e1EcSF'
         },
-        body: JSON.stringify( name )
-        
+        body: JSON.stringify(name)
+
       });
       const data = await response.json()
       if (!response.ok) return Alert.alert(data.message)
       const clientSecret = data.clientSecret
-    console.log(clientSecret);
+      console.log(clientSecret);
       const initSheet = await stripe.initPaymentSheet({
-        merchantDisplayName:"masana",
+        merchantDisplayName: "masana",
         paymentIntentClientSecret: clientSecret
       });
 
@@ -105,34 +113,27 @@ const Checkout = () => {
       <Text style={styles.title}>Checkout</Text>
 
       <View style={styles.addressSection}>
-        <Text style={styles.sectionTitle}>Drop-off Address</Text>
+        <Text style={styles.sectionTitle}>Drop-off Address<MaterialIcons name="delivery-dining" size={24} color="black" /></Text>
         <Text style={styles.addressText}>{userDetails.address}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Text style={styles.changeAddressText}>Change Address</Text>
         </TouchableOpacity>
-
       </View>
 
 
 
       <View style={styles.cardSection}>
-
-        <TextInput onChangeText={(text) => setName(text)}
-          placeholder="Name" style={{
-            width: 300,
-            fontSize: 20,
-            padding: 10,
-            borderWidth: 1,
-          }}> </TextInput>
-        <Button style={styles.methodDrop}  title="Pay here" onPress={() => CardDetails()}>Choose Payment option</Button>
+        <TouchableOpacity style={styles.payments} title="Pay here" onPress={() => CardDetails()}
+        ><Text style={styles.buttonText}>Pay here</Text>
+        </TouchableOpacity>
       </View>
 
-      <Text style={styles.methodDrop}>{selectedValue}</Text>
+      
       <View style={styles.totalSection}>
         <Text style={styles.sectionTitle}>Order Total</Text>
         <Text style={styles.totalAmount}>R {cart.calculateTotal}</Text>
       </View>
-      <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
+      <TouchableOpacity style={styles.placeOrderButton} onPress={() => handlePlaceOrder()}>
         <Text style={styles.placeOrderButtonText}>Place Order</Text>
       </TouchableOpacity>
     </View>
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop:90,
   },
   title: {
     fontSize: 35,
@@ -158,7 +160,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   addressText: {
-    fontSize: 16,
+    fontSize: 36,
+    backgroundColor:'#b7b7b7'
   },
   changeAddressText: {
     fontSize: 16,
@@ -204,6 +207,16 @@ const styles = StyleSheet.create({
     height: 20,
 
   },
+  payments:{
+    backgroundColor: '#575757', 
+    padding: 15,
+    borderRadius: 5, 
+    alignItems: 'center',
+  },
+  buttonText:{
+    color: 'white', 
+    fontWeight: 'bold', 
+  }
 });
 
 export default Checkout;

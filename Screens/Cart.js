@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { decreamentQuantity, removeFromCart, increamentQuantity,clearCart } from '../Slices/CartReducer';
+import { decreamentQuantity, removeFromCart, increamentQuantity, clearCart } from '../Slices/CartReducer';
 import { useNavigation } from '@react-navigation/core';
 
 
@@ -12,13 +12,40 @@ import { useNavigation } from '@react-navigation/core';
 const Cart = ({ item }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch()
+  const { user } = useSelector(state => state.user)
+  console.log('cartttttt', user);
 
+  const percistancy = () => {
+    Alert.alert(
+      'please Sign up',
+      '',
+      [
+        {
+          text: 'login',
+          onPress: () => {
+            navigation.navigate('Login')
+          }, style: 'cancel'
+        },
+        {
+          text: 'Register',
+          onPress: () => {
+            navigation.navigate('Registration')
+          }, style: 'cancel'
+        }
+      ],
+      {
+        cancelable: true, onDismiss: () =>
+          Alert.alert('cancel')
+
+      }
+    )
+  }
   const cart = useSelector((state) => state.cart.cart)
-  console.log('Karrrrrt',cart);
+  console.log('Karrrrrt', cart);
 
-  const[ quantity,setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1)
   //clear Cart
-  const clearItems = () =>{
+  const clearItems = () => {
     dispatch(clearCart());
   }
 
@@ -34,20 +61,26 @@ const Cart = ({ item }) => {
   }
 
   //decrease quantity
-  const decreaseQuantity = (item) =>{
+  const decreaseQuantity = (item) => {
     dispatch(decreamentQuantity(item))
   }
 
   // Sample cart items for demonstration
   const [cartItems, setCartItems] = useState([]);
-  
-  
 
+
+  const NavToCheckout = () => {
+    if (user) {
+      navigation.navigate('Checkout', { ...cart, calculateTotal: calculateTotal() })
+    } else {
+      percistancy()
+    }
+  }
 
   // Calculate the total cost of items in the cart
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-    
+
   };
 
 
@@ -57,41 +90,45 @@ const Cart = ({ item }) => {
 
   // Render each item in the cart
   const renderItem = ({ item }) => {
-      return (
-       
-        <View  style={styles.cartItem}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemPrice}>R{item.price}</Text>
+    return (
 
-          <View style={styles.quantityContainer}>
-            <TouchableOpacity style={styles.quantityButton}
-              onPress={() => decreaseQuantity(item)}>
-              <AntDesign name="minuscircleo" size={24} color="black" />
-            </TouchableOpacity>
-            <Text style={styles.quantityValue}>{item.quantity}</Text>
-            <TouchableOpacity
-              style={styles.quantityButton}
-              onPress={() => increaseQuantity(item)}>
-              <AntDesign name="pluscircleo" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.deleteAdit}>
-            <TouchableOpacity >
-              <MaterialIcons name="delete" size={24} color="black"
-                onPress={() => removeItemFromCart(item)}
-              />
-            </TouchableOpacity>
-            <Text style={styles.quantityValue}>{quantity}</Text>
-          </View>
+      <View style={styles.cartItem}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemPrice}>R{item.price}</Text>
+
+        <View style={styles.quantityContainer}>
+          <TouchableOpacity style={styles.quantityButton}
+            onPress={() => decreaseQuantity(item)}>
+            <AntDesign name="minuscircleo" size={24} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.quantityValue}>{item.quantity}</Text>
+          <TouchableOpacity
+            style={styles.quantityButton}
+            onPress={() => increaseQuantity(item)}>
+            <AntDesign name="pluscircleo" size={24} color="black" />
+          </TouchableOpacity>
         </View>
+        <View style={styles.deleteAdit}>
+          <TouchableOpacity >
+            <MaterialIcons name="delete-outline" size={24} color="red"
+              onPress={() => removeItemFromCart(item)}
+            />
+          </TouchableOpacity>
+          <Text style={styles.quantityValue}>{quantity}</Text>
+        </View>
+      </View>
 
 
-      );
-   
+    );
+
   };
+
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <AntDesign name="arrowleft" size={35} color="black" />
+          </TouchableOpacity>
       <Text style={styles.title}>Shopping Cart</Text>
       <FlatList
         data={cart}
@@ -101,25 +138,32 @@ const Cart = ({ item }) => {
       />
       <Text style={styles.Delivary}>Free Delivary</Text>
       <Text style={styles.total}>Total: R{calculateTotal()}</Text>
-      <TouchableOpacity onPress={() => clearItems()} style={styles.checkoutButton} >
-        <Text style={styles.checkoutButtonText}> Clear Cart</Text>
+      <TouchableOpacity onPress={() => clearItems()} style={styles.clearCartButton} >
+        <Text style={styles.clearCartButtonText}> Clear Cart</Text>
       </TouchableOpacity>
-      <TouchableOpacity  onPress={() => navigation.navigate('Checkout', { ...cart,calculateTotal:calculateTotal()})}style={styles.checkoutButton}>
+      <TouchableOpacity onPress={NavToCheckout} style={styles.checkoutButton}>
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </TouchableOpacity>
     </View>
   );
+
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop:0,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    marginRight:150,
+    Color: '#897979',
+    justifyContent:'center',
+    alignItems: 'center',
+
   },
   cartList: {
     flexGrow: 1,
@@ -189,11 +233,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  Delivary:{
+  Delivary: {
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 16,
-  }
+  },
+  clearCartButton: {
+    backgroundColor: '#8a8a8a',
+    padding: 16,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  clearCartButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+
 });
 
 export default Cart;

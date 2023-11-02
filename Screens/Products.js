@@ -47,7 +47,7 @@ const dispatch = useDispatch();
     <View style={styles.container} >
       <StatusBar style="light" />
       <Image
-        source={require('../assets/vage.webp')}
+        source={require('../assets/min.jpg')}
         style={styles.backgroundImage}
       />
       <SafeAreaView style={styles.safeArea}>
@@ -70,45 +70,7 @@ const dispatch = useDispatch();
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.coffeeName}>{item.name}</Text>
-          <Text style={styles.coffeePrice}>$ {item.price}</Text>
-        </View>
-        <View style={styles.sizeContainer}>
-          <Text style={styles.sizeText}>Coffee size</Text>
-          <View style={styles.sizeButtons}>
-            <TouchableOpacity
-              onPress={() => setSize('small')}
-              style={[
-                styles.sizeButton,
-                size === 'small' && styles.activeSizeButton,
-              ]}
-            >
-              <Text style={size === 'small' ? styles.activeSizeText : styles.inactiveSizeText}>
-                Small
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setSize('medium')}
-              style={[
-                styles.sizeButton,
-                size === 'medium' && styles.activeSizeButton,
-              ]}
-            >
-              <Text style={size === 'medium' ? styles.activeSizeText : styles.inactiveSizeText}>
-                Medium
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setSize('large')}
-              style={[
-                styles.sizeButton,
-                size === 'large' && styles.activeSizeButton,
-              ]}
-            >
-              <Text style={size === 'large' ? styles.activeSizeText : styles.inactiveSizeText}>
-                Large
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.coffeePrice}>R {item.price}</Text>
         </View>
         <View style={styles.aboutContainer}>
           <Text style={styles.aboutText}>About</Text>
@@ -120,22 +82,11 @@ const dispatch = useDispatch();
               <Text style={styles.volumeLabelText}>Volume</Text>
               <Text style={styles.volumeText}>{item.volume}</Text>
             </View>
-            <View style={styles.quantityButtons}>
-              <TouchableOpacity style={styles.quantityButton}
-                onPress={handleDecrease}>
-                <AntDesign name="minuscircleo" size={24} color="black" />
-              </TouchableOpacity>
-              <Text style={styles.quantityValue}>{quantity}</Text>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={handleIncrease}>
-                <AntDesign name="pluscircleo" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
+          
           </View>
           <View style={styles.buyButtonContainer}>
             <TouchableOpacity style={styles.cartButton}>
-              <AntDesign name="shoppingcart" size={24} color="black"
+              <AntDesign name="shoppingcart" size={34} color="#d5a12e"
                 onPress={() => navigation.navigate('Cart', { ...item })} />
             </TouchableOpacity>
           </View>
@@ -149,7 +100,7 @@ const dispatch = useDispatch();
           <TouchableOpacity style={styles.buyNowButton}
             onPress={() => AddItemToCart(item)}>
 
-            <Text style={styles.buyNowText}>Buy now</Text>
+            <Text style={styles.buyNowText}>Add to Cart</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -191,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   imageContainer: {
-    shadowColor: '#f38d8d',
+    shadowColor: 'black',
     shadowRadius: 30,
     shadowOffset: { width: 0, height: 30 },
     shadowOpacity: 0.9,
@@ -206,7 +157,7 @@ const styles = StyleSheet.create({
   starContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f38d8d',
+    backgroundColor: '#d5a12e',
     width: 60,
 
   },
@@ -228,12 +179,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   coffeeName: {
-    color: '#f38d8d',
+    color: 'black',
     fontSize: 24,
     fontWeight: 'bold',
   },
   coffeePrice: {
-    color: '#f38d8d',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -242,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   sizeText: {
-    color: '#f38d8d',
+    color: 'black',
     fontSize: 20,
   },
   sizeButtons: {
@@ -257,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   activeSizeButton: {
-    backgroundColor: '#f38d8d',
+    backgroundColor: 'black',
   },
   activeSizeText: {
     color: 'white',
@@ -270,7 +221,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   aboutText: {
-    color: '#f38d8d',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -298,7 +249,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   volumeText: {
-    color: '#f38d8d',
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -315,7 +266,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   quantityValue: {
-    color: '#f38d8d',
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -330,7 +281,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
   },
   buyNowButton: {
-    backgroundColor: '#f38d8d',
+    backgroundColor: '#d5a12e',
     borderRadius: 15,
     paddingVertical: 10,
     paddingHorizontal: 10,

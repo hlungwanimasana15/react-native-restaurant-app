@@ -11,83 +11,98 @@ import Products from './Screens/Products';
 import { Ionicons } from '@expo/vector-icons';
 import Profile from './Screens/Profile';
 import Checkout from './Screens/Checkout'
-
+ import Welcome from './Screens/Welcome';
+import Tabnavigation from './Tabnavigation';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { setUser } from './Slices/SliceUsers';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
- function HomeStack() {
-
-  return (
-   
-        
-      <Stack.Navigator initialRouteName="Login"
-      options={{ headerShown: false}} >
-        <Stack.Screen name="Login" component={Login}  />
-        <Stack.Screen name="Registration" component={Registration} />
-        <Stack.Screen name="Home" component={HomeScreen}  />
-        <Stack.Screen name="Manu" component={Manu} />
-        <Stack.Screen name="Cart" component={Cart} />
-        <Stack.Screen name="Products" component={Products} />
-        <Stack.Screen name="Checkout" component={Checkout} />
-      </Stack.Navigator>
-    
-  
-
-  );
-
-}
+ 
 export default function Navigation() {
-  return (
-   
-    <NavigationContainer >
-      <Tab.Navigator
-        initialRouteName="Login"
-        tabBarOptions={{
-          activeTintColor: 'red', 
-          inactiveTintColor: '#f3b1a9', 
-          headerShown: false,
-          style: { backgroundColor: 'black' },
-        }}
 
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeStack}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="home-outline" size={35} color="#f38d8d" />
-            ),
-            headerShown: false,
-            
-          }}
-        />
-         <Tab.Screen
-          name="Cart"
-          component={Cart}
-          options={{
-            tabBarLabel: 'Cart',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="ios-cart-outline" size={40} color="#f38d8d" />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            tabBarLabel: 'profile',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="person-circle-sharp" size={40} color="#f38d8d" />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+  const dispatch = useDispatch()
+  //  const [ user,setUser] =useState('')
+
+  useEffect (() =>{
+    const perc = async() => {
+      const GetItems =await AsyncStorage.getItem(
+        'token'
+      )
+      const  store = JSON.parse(GetItems)
+      console.log("++++++++",store);
+      if( store !== null ){
+        dispatch(setUser(store))
+        
+      }
+
+    }
+    perc()
+  },[])
+  
+    // return (
+   
+    //   <NavigationContainer >
+      
+    //     <Stack.Navigator initialRouteName="Welcome" >
+  
+    //       {/* <Stack.Screen name="Login" component={Login}  options={{
+    //        headerShown: false}} />
+    //       <Stack.Screen name="Registration" component={Registration}   options={{ */}
+    //        {/* headerShown: false}}/> */}
+    //       <Stack.Screen name="TabNavigation" component={Tabnavigation}  options={{
+    //        headerShown: false}} />
+    //       <Stack.Screen name="Manu" component={Manu}   options={{
+    //        headerShown: false}}/>
+    //       <Stack.Screen name="Cart" component={Cart}  options={{
+    //        headerShown: false}}/>
+    //       <Stack.Screen name="Products" component={Products}  options={{
+    //        headerShown: false}}/>
+    //       <Stack.Screen name="Checkout" component={Checkout} options={{
+    //        headerShown: false}} />
+    //        {/* <Stack.Screen name="Welcome" component={Welcome}  options={{
+    //        headerShown: false}}/>  */}
+  
+    //     </Stack.Navigator>
+      
     
-  );
-}
+    //   </NavigationContainer>
+    // )
+  
+    return (
+   
+      <NavigationContainer >
+      
+        <Stack.Navigator initialRouteName="Welcome" >
+  
+          <Stack.Screen name="Login" component={Login}  options={{
+           headerShown: false}} />
+          <Stack.Screen name="Registration" component={Registration}   options={{
+           headerShown: false}}/>
+          <Stack.Screen name="TabNavigation" component={Tabnavigation}  options={{
+           headerShown: false}} />
+          <Stack.Screen name="Manu" component={Manu}   options={{
+           headerShown: false}}/>
+          <Stack.Screen name="Cart" component={Cart}  options={{
+           headerShown: false}}/>
+          <Stack.Screen name="Products" component={Products}  options={{
+           headerShown: false}}/>
+          <Stack.Screen name="Checkout" component={Checkout} options={{
+           headerShown: false}} />
+           <Stack.Screen name="Welcome" component={Welcome}  options={{
+           headerShown: false}}/> 
+  
+        </Stack.Navigator>
+      
+    
+      </NavigationContainer>
+    )
+  }
+
+
 
 
 
