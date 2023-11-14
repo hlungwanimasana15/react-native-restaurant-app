@@ -8,7 +8,7 @@ const FoodItem = ({ item }) => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.menuItem}>
+    <TouchableOpacity style={styles.menuItem} onPress={()=> navigation.navigate('Products', { ...item })}>
       <Image source={{ uri: item.image }} style={styles.image} />
 
       <View style={styles.description}>
@@ -26,7 +26,7 @@ const FoodItem = ({ item }) => {
       >
         <AntDesign name="plus" size={35} color="black" />
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
+    position:'relative',
   },
   image: {
     width: 150,
@@ -84,8 +85,11 @@ const styles = StyleSheet.create({
     marginLeft:-20,
   },
   plusButton: {
-    alignSelf: 'flex-end',
-    marginTop: -15,
+    // alignSelf: 'flex-end',
+    // marginTop: -15,
+    position:'absolute',
+    bottom:5,
+    right:10
   },
 });
 

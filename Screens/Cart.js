@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert,Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -93,9 +93,13 @@ const Cart = ({ item }) => {
     return (
 
       <View style={styles.cartItem}>
+        <View>
+        <Image source={{ uri: item.image }} style={{ width: 80, height: 80 }} />
+        </View>
+        <View style={{marginLeft:-50}}>
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemPrice}>R{item.price}</Text>
-
+        </View>
         <View style={styles.quantityContainer}>
           <TouchableOpacity style={styles.quantityButton}
             onPress={() => decreaseQuantity(item)}>
@@ -110,11 +114,11 @@ const Cart = ({ item }) => {
         </View>
         <View style={styles.deleteAdit}>
           <TouchableOpacity >
-            <MaterialIcons name="delete-outline" size={24} color="red"
+            <MaterialIcons name="cancel" size={24} color="red"
               onPress={() => removeItemFromCart(item)}
             />
           </TouchableOpacity>
-          <Text style={styles.quantityValue}>{quantity}</Text>
+          <Text style={styles.quantityValue}></Text>
         </View>
       </View>
 
@@ -155,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    paddingTop:80,
+    paddingTop:30,
   },
   title: {
     fontSize: 24,
@@ -173,9 +177,12 @@ const styles = StyleSheet.create({
   },
   cartItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
   },
   itemName: {
     fontSize: 16,
@@ -219,8 +226,9 @@ const styles = StyleSheet.create({
   },
   quantityValue: {
     color: 'black',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
+    top:7
   },
   quantityContainer: {
     paddingHorizontal: 20,
@@ -228,13 +236,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+    position:'absolute',
+    right:50,
+    bottom:-20
   },
   deleteAdit: {
     paddingHorizontal: 20,
-    marginTop: 16,
+    marginTop:-16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+  
   },
   Delivary: {
     fontSize: 20,

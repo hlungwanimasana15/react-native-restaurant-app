@@ -8,8 +8,28 @@ export const cartSlice = createSlice({
     reducers: {
         AddToCart: (state, action) => {
             console.log("add to cart", state.cart);
-            state.cart.push({ ...action.payload, quantity: 1 })
-            // const itemInCart = state.cart.find((item) => item.id === action.payload.id);
+
+            const existingItem = state.cart.find(item => item.id === action.payload.id);
+
+            if (existingItem) {
+                const updatedCart = state.cart.map(item =>
+                    item.id === action.payload.id ? { ...item, quantity: item.quantity + 1 } : item
+                );
+        
+                return {
+                    ...state,
+                    cart: updatedCart,
+                };
+            } else {
+                const newCart = [...state.cart, { ...action.payload, quantity: 1 }];
+                return {
+                    ...state,
+                    cart: newCart,
+                };
+            }
+        
+            // state.cart.push({ ...action.payload, quantity: 1 })
+            // // const itemInCart = state.cart.find((item) => item.id === action.payload.id);
             // if (itemInCart) {
             //     // console.log(' state.cart', itemInCart);
             //     itemInCart.quantity++

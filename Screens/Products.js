@@ -26,7 +26,7 @@ const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
   const item = props.route.params;
-  const [size, setSize] = useState('small');
+
 
 
   const navigation = useNavigation();
@@ -47,7 +47,7 @@ const dispatch = useDispatch();
     <View style={styles.container} >
       <StatusBar style="light" />
       <Image
-        source={require('../assets/min.jpg')}
+        source={require('../assets/vage.webp')}
         style={styles.backgroundImage}
       />
       <SafeAreaView style={styles.safeArea}>

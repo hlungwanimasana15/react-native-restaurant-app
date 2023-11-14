@@ -16,7 +16,7 @@ const Tabnavigation = () => {
       initialRouteName='Home'
         tabBarOptions={{
           activeTintColor: 'black', 
-          inactiveTintColor: 'orange', 
+          inactiveTintColor: 'black', 
           headerShown: false,
         
         }}
