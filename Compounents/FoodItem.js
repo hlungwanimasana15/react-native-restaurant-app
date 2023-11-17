@@ -3,23 +3,27 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const FoodItem = ({ item }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.menuItem} onPress={()=> navigation.navigate('Products', { ...item })}>
-      <Image source={{ uri: item.image }} style={styles.image} />
+    <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Products', { ...item })}>
+       <View style={styles.container}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+        <View style={styles.iconContainer}>
+          <AntDesign name="hearto" size={24} color="white" />
+        </View>
+      </View>
 
       <View style={styles.description}>
         <Text style={styles.name}>{item.name}</Text>
         <View style={styles.ratingContainer}>
-          <AntDesign name="staro" size={24} color="gold" style={styles.starIcon} />
-          <Text style={styles.ratingText}>{item.reviews}</Text>
+            <Text style={styles.price}>Price: R{item.price}</Text>
         </View>
-        <Text style={styles.price}>Price: R{item.price}</Text>
       </View>
-
       <TouchableOpacity
         onPress={() => navigation.navigate('Products', { ...item })}
         style={styles.plusButton}
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-    position:'relative',
+    position: 'relative',
   },
   image: {
     width: 150,
@@ -61,36 +65,38 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'black',
     fontWeight: 'bold',
-    marginLeft:-20,
-    marginRight:0
+    marginLeft: -20,
+    marginRight: 0
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'colomn',
+    alignItems: 'flex-start',
     marginTop: 5,
-    paddingRight:10,
-    marginRight:60
+    paddingRight: 10,
+    marginRight: 40
 
   },
-  starIcon: {
-    marginRight: 5,
-   
-  },
-  ratingText: {
-    fontSize: 16,
-    
-  },
+ 
   price: {
     marginTop: 5,
-    marginLeft:-20,
+    marginLeft: -20,
   },
   plusButton: {
-    // alignSelf: 'flex-end',
-    // marginTop: -15,
-    position:'absolute',
-    bottom:5,
-    right:10
+    
+    position: 'absolute',
+    bottom: 20,
+    right: 10
   },
+  starContainer:{
+    flexDirection: 'row', 
+    alignItems: 'center', 
+  
+},iconContainer: {
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  backgroundColor: 'transparent', // Set to transparent to allow the image to show through
+},
 });
 
 export default FoodItem;

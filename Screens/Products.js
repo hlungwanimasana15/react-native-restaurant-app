@@ -12,22 +12,17 @@ import { useDispatch } from 'react-redux';
 
 const Products = (props) => {
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const AddItemToCart = (item) => {
     dispatch(AddToCart(item));
   }
-
   // const cart = useSelector((state) => state.cart.cart)
   // console.log(cart);
-
-
 
   const [quantity, setQuantity] = useState(1);
 
   const item = props.route.params;
-
-
 
   const navigation = useNavigation();
 
@@ -46,44 +41,28 @@ const dispatch = useDispatch();
   return (
     <View style={styles.container} >
       <StatusBar style="light" />
-      <Image
-        source={require('../assets/vage.webp')}
-        style={styles.backgroundImage}
-      />
+
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <AntDesign name="arrowleft" size={35} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.heartButton}>
-            <AntDesign name="hearto" size={25} color="white" />
+            <AntDesign name="arrowleft" size={35} color="black" />
           </TouchableOpacity>
         </View>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image}} style={styles.coffeeImage} />
+          <Image source={{ uri: item.image }} style={styles.coffeeImage} />
         </View>
-        <View style={styles.starContainer}>
-          <View style={styles.starBackground}>
-            <AntDesign name="staro" size={15} color="white" />
-            <Text style={styles.starText}>{item.reviews}</Text>
-          </View>
-        </View>
+
         <View style={styles.infoContainer}>
           <Text style={styles.coffeeName}>{item.name}</Text>
           <Text style={styles.coffeePrice}>R {item.price}</Text>
         </View>
         <View style={styles.aboutContainer}>
-          <Text style={styles.aboutText}>About</Text>
+          <Text style={styles.aboutText}>Description</Text>
           <Text style={styles.aboutDescription}>{item.discr}</Text>
         </View>
         <View style={styles.quantityContainer}>
-          <View style={styles.volumeContainer}>
-            <View style={styles.volumeTextContainer}>
-              <Text style={styles.volumeLabelText}>Volume</Text>
-              <Text style={styles.volumeText}>{item.volume}</Text>
-            </View>
-          
-          </View>
+
+          <Text style={styles.volumeText}>{item.volume}</Text>
           <View style={styles.buyButtonContainer}>
             <TouchableOpacity style={styles.cartButton}>
               <AntDesign name="shoppingcart" size={34} color="#d5a12e"
@@ -96,7 +75,7 @@ const dispatch = useDispatch();
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-         
+
           <TouchableOpacity style={styles.buyNowButton}
             onPress={() => AddItemToCart(item)}>
 
@@ -113,8 +92,8 @@ export default Products
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom:80,
-
+    marginBottom: 80,
+    paddingTop: 30,
   },
   backgroundImage: {
     height: 300,
@@ -131,46 +110,48 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 20,
+    position: 'absolute',
+    top: 30,
+    zIndex: 20
   },
   backButton: {
-    borderRadius: 50,
+    borderRadius: 8,
+    padding: 10,
   },
   heartButton: {
-    borderRadius: 50,
+    borderRadius: 8,
     borderWidth: 2,
     borderColor: 'white',
-    padding: 12,
+    padding: 10,
   },
   imageContainer: {
-    shadowColor: 'black',
-    shadowRadius: 30,
-    shadowOffset: { width: 0, height: 30 },
-    shadowOpacity: 0.9,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
+    height: '50%',
+
   },
   coffeeImage: {
-    height: 200,
-    width: 200,
-    marginTop: 40,
+    height: '100%',
+    width: '100%',
+    borderRadius: 15,
   },
   starContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#d5a12e',
     width: 60,
-
+    borderRadius: 15,
   },
   starBackground: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 4,
-    paddingHorizontal: 8,
+    padding: 8,
+    paddingHorizontal: 12,
   },
   starText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
+    marginLeft: 4,
   },
   infoContainer: {
     paddingHorizontal: 20,
@@ -179,54 +160,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   coffeeName: {
-    color: 'black',
+    color: '#333',
     fontSize: 24,
     fontWeight: 'bold',
   },
   coffeePrice: {
-    color: 'black',
+    color: '#555',
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  sizeContainer: {
-    paddingHorizontal: 20,
-    marginTop: 16,
-  },
-  sizeText: {
-    color: 'black',
-    fontSize: 20,
-  },
-  sizeButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 8,
-  },
-  sizeButton: {
-    backgroundColor: 'rgba(0,0,0,0.07)',
-    padding: 12,
-    borderRadius: 50,
-    flex: 1,
-  },
-  activeSizeButton: {
-    backgroundColor: 'black',
-  },
-  activeSizeText: {
-    color: 'white',
-  },
-  inactiveSizeText: {
-    color: 'gray',
   },
   aboutContainer: {
     paddingHorizontal: 20,
     marginTop: 16,
   },
   aboutText: {
-    color: 'black',
+    color: '#333',
     fontSize: 20,
     fontWeight: 'bold',
   },
   aboutDescription: {
-    color: 'gray',
+    color: '#666',
+    marginTop: 8,
   },
   quantityContainer: {
     paddingHorizontal: 20,
@@ -244,29 +198,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   volumeLabelText: {
-    color: 'gray',
+    color: '#666',
     fontSize: 16,
     fontWeight: 'bold',
+    marginRight: 4,
   },
   volumeText: {
-    color: 'black',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  quantityButtons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 50,
-    padding: 8,
-    marginLeft: 20,
-  },
-  quantityButton: {
-    padding: 8,
-  },
-  quantityValue: {
-    color: 'black',
+    color: '#333',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -278,24 +216,20 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#d5a12e',
   },
   buyNowButton: {
     backgroundColor: '#d5a12e',
     borderRadius: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 190,
-    height: 60,
-    marginTop: 15,
-
+    marginTop: 110,
   },
   buyNowText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
-
-})
+});

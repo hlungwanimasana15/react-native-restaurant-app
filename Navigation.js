@@ -3,13 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from './Screens/Login';
-import HomeScreen from './Screens/HomeScreen';
 import Registration from './Screens/Registration'
 import Manu from './Screens/Manu';
 import Cart from './Screens/Cart'
 import Products from './Screens/Products';
-import { Ionicons } from '@expo/vector-icons';
-import Profile from './Screens/Profile';
 import Checkout from './Screens/Checkout'
  import Welcome from './Screens/Welcome';
 import Tabnavigation from './Tabnavigation';
@@ -53,9 +50,7 @@ export default function Navigation() {
     return (
    
       <NavigationContainer >
-      
         <Stack.Navigator initialRouteName="Welcome" >
-  
           <Stack.Screen name="Login" component={Login}  options={{
            headerShown: false}} />
           <Stack.Screen name="Registration" component={Registration}   options={{
@@ -80,10 +75,7 @@ export default function Navigation() {
            headerShown: false}} />
            <Stack.Screen name="Welcome" component={Welcome}  options={{
            headerShown: false}}/> 
-  
         </Stack.Navigator>
-      
-    
       </NavigationContainer>
     )
   }
