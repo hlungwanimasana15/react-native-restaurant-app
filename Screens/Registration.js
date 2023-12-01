@@ -44,10 +44,15 @@ const Registration = () => {
         <KeyboardAvoidingView style={styles.container}
             behavior='padding'>
             <ImageBackground
-                source={require('../assets/roosi.jpg')}
+                source={require('../assets/signup.jpg')}
                 style={styles.backgroundImage}
             >
+               
+                
                 <View style={styles.inputContainer}>
+                <View style={styles.titleContainer}>
+                <Text style={styles.title}>Sign Up</Text>
+                </View>
                     <TextInput
                         placeholder='Name'
                         value={name}
@@ -90,29 +95,16 @@ const Registration = () => {
                         style={styles.input}
 
                     ></TextInput>
-                    <TextInput
-                        placeholder='Card Number'
-                        value={cardNumber}
-                        onChangeText={text => setCardNumber(text)}
-
-                        style={styles.input}
-                    ></TextInput>
-                    <TextInput
-                        placeholder='Card Name'
-                        value={cardName}
-                        onChangeText={text => setCardName(text)}
-                        style={styles.input}
-
-                    ></TextInput>
+                   
+                   
                 </View>
-                <View>
+                <View  style={{ flex: 1,alignItems:'center', marginBottom: 125 ,width:'95%',height:50,paddingLeft:30}}>
                     <TouchableOpacity
                         onPress={() => handleSignUp()}
                         style={[styles.button, styles.buttonOutline]}
                     >
-                        <Text style={styles.buttonOutlineText}>Register</Text>
+                        <Text style={styles.buttonOutlineText}>Sign Up</Text>
                     </TouchableOpacity>
-
                 </View>
             </ImageBackground>
         </KeyboardAvoidingView>
@@ -128,12 +120,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: 'center',
+        // paddingTop:'150px'
 
     },
     inputContainer: {
-        width: '50%',
-        marginTop: 15,
+        width: '80%',
+        marginTop: 165,
         margin: 40,
+        paddingLeft:0,
+        // backgroundColor: 'red',
     },
     input: {
         backgroundColor: 'white',
@@ -141,6 +136,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5,
+        height: 50,
+        marginBottom: 10,
+        paddingLeft: 10,
     },
     buttonContainer: {
         width: '80%',
@@ -148,16 +146,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: '#0783f9',
-
+        width:'70%',
+        height:50,
         paddingHorizontal: 15,
         borderRadius: 10,
+        marginBottom: 125,
+        justifyContent:'center',
+        alignItems:'center',
+
     },
     buttonOutline: {
-        backgroundColor: 'white',
+        backgroundColor: 'orange',
         margin: 5,
-        borderColor: '#078f9',
+        borderColor: 'orange',
         borderWidth: 2,
+        justifyContent:'center',
+        alignItems:'center',
+       
+
     },
     buttonText: {
         color: 'white',
@@ -167,13 +173,24 @@ const styles = StyleSheet.create({
     buttonOutlineText: {
         fontWeight: '700',
         fontSize: 16,
-
+        color:'white'
+       
     },
     backgroundImage: {
         flex: 1,
         resizeMode: 'cover',
         width: '100%',
         height: '100%',
+    },
+    titleContainer:{
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title:{
+        color: '#ffa726',
+        fontSize: 34,
+        marginBottom: 16,
+        fontWeight: 'bold',
     },
 
 })

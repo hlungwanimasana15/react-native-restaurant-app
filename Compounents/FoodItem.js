@@ -14,7 +14,7 @@ const FoodItem = ({ item }) => {
        <View style={styles.container}>
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={styles.iconContainer}>
-          <AntDesign name="hearto" size={24} color="white" />
+          <AntDesign name="hearto" size={24} color="orange" />
         </View>
       </View>
 
@@ -28,7 +28,7 @@ const FoodItem = ({ item }) => {
         onPress={() => navigation.navigate('Products', { ...item })}
         style={styles.plusButton}
       >
-        <AntDesign name="plus" size={35} color="black" />
+        <AntDesign name="plus" size={35} color="orange" />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -96,6 +96,17 @@ const styles = StyleSheet.create({
   top: 10,
   right: 10,
   backgroundColor: 'transparent', // Set to transparent to allow the image to show through
+},
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingHorizontal: 10,
+  marginBottom: 20,
+
+},
+title: {
+  fontSize: 20,
+  fontWeight: 'bold',
 },
 });
 

@@ -5,17 +5,22 @@ import { Ionicons } from '@expo/vector-icons';
 import Profile from './Screens/Profile';
 import HomeScreen from './Screens/HomeScreen';
 import { View, StyleSheet  } from 'react-native';
-
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Tab = createBottomTabNavigator();
 
+
 const Tabnavigation = () => {
+
+  
+  const cartCount = useSelector((state) => state.cart.totalItems);
+
   return (
       <Tab.Navigator
       initialRouteName='Home'
         tabBarOptions={{
-          activeTintColor: 'black', 
+          activeTintColor: 'orange', 
           inactiveTintColor: 'black', 
           headerShown: false,
           
@@ -30,10 +35,12 @@ const Tabnavigation = () => {
               headerShown: false,
             tabBarLabel: 'Home',
             tabBarIcon: ({ color }) => (
-              <Ionicons name="home-outline" size={35} color="black" />
+              <Ionicons
+               name="home-outline"
+                size={35} color="orange" />
             ),
            
-            
+
           }}
         />
          <Tab.Screen
@@ -42,8 +49,9 @@ const Tabnavigation = () => {
           options={{
             tabBarLabel: 'Cart',
             tabBarIcon: ({ color }) => (
-              <Ionicons name="ios-cart-outline" size={40} color="black" />
+              <Ionicons name="ios-cart-outline" size={40} color="orange" />
             ),
+            tabBarBadge: cartCount > 0 ? cartCount : null,
           }}
         />
         <Tab.Screen
@@ -52,7 +60,7 @@ const Tabnavigation = () => {
           options={{
             tabBarLabel: 'profile',
             tabBarIcon: ({ color }) => (
-              <Ionicons name="ios-person-outline" size={35} color="black" />
+              <Ionicons name="ios-person-outline" size={35} color="orange" />
             ),
           }}
         />

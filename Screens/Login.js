@@ -3,11 +3,10 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core'
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../Slices/SliceUsers';
-import { setUserInfo } from '../Slices/dataSlice';
-import { BlurView } from 'react-native-blur';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -45,7 +44,7 @@ const Login = () => {
         const LoggedInUser = () => {
             const user = auth.currentUser
             dispatch(setUser(user))
-            //console.log('=============', user);
+            console.log('=============', user);
         }
         return LoggedInUser()
 
@@ -59,11 +58,15 @@ const Login = () => {
         <KeyboardAvoidingView style={styles.container}
             behavior='padding'>
             <ImageBackground
-                source={require('../assets/luu.jpg')}
+                source={require('../assets/orange.jpg')}
                 style={styles.backgroundImage}
             >
+                
                 <View style={styles.containerinput}>
                     <View style={styles.inputContainer}>
+                    <View style={styles.titleContainer}>
+                <Text style={styles.title}>Sign In</Text>
+                </View>
                         <TextInput
                             placeholder='Email'
                             value={email}
@@ -83,7 +86,7 @@ const Login = () => {
                             onPress={() => handleLogin()}
                             style={styles.button}
                         >
-                            <Text style={styles.buttonOutlineText}>Login</Text>
+                            <Text style={styles.buttonOutlineText}>Sign In</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -104,8 +107,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: -20,
         padding:5
-
-
     },
     containerinput: {
         flex: 1,
@@ -132,14 +133,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: '#0783f9',
+        backgroundColor: 'orange',
         paddingHorizontal: 15,
         borderRadius: 10,
         width:150,
         height:40,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'#a16132',
+        backgroundColor:'orange',
     },
     buttonOutline: {
         backgroundColor: 'white',
@@ -165,6 +166,16 @@ const styles = StyleSheet.create({
         height: '100%',
         blurType:"dark", 
         blurAmount:500 ,
+    },
+    titleContainer:{
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title:{
+        color: '#ffa726',
+        fontSize: 34,
+        marginBottom: 16,
+        fontWeight: 'bold',
     },
    
 })

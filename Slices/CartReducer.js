@@ -4,6 +4,7 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         cart: [],
+        totalItems: 0,
     },
     reducers: {
         AddToCart: (state, action) => {
@@ -19,45 +20,45 @@ export const cartSlice = createSlice({
                 return {
                     ...state,
                     cart: updatedCart,
+                    totalItems: state.totalItems + 1
+
                 };
             } else {
                 const newCart = [...state.cart, { ...action.payload, quantity: 1 }];
                 return {
                     ...state,
                     cart: newCart,
+                    totalItems: state.totalItems + 1,
                 };
             }
         
-            // state.cart.push({ ...action.payload, quantity: 1 })
-            // // const itemInCart = state.cart.find((item) => item.id === action.payload.id);
-            // if (itemInCart) {
-            //     // console.log(' state.cart', itemInCart);
-            //     itemInCart.quantity++
-                
-            // } else {
-            //     // console.log(' state.cart2', itemInCart);
-            //     state.cart.push({ ...action.payload, quantity: 1 })
-            // }
+        
         },
         removeFromCart: (state, action) => {
             const removeFromCart = state.cart.filter((item) => item.id !== action.payload.id)
-            state.cart = removeFromCart
+            state.cart = removeFromCart;
+            state.totalItems = state.totalItems - 1;
         },
         increamentQuantity: (state, action) => {
             const itemInCart = state.cart.find((item) => item.id == action.payload.id);
             itemInCart.quantity++;
+            state.totalItems++
+
         },
         decreamentQuantity: (state, action) => {
             const itemInCart = state.cart.find((item) => item.id == action.payload.id);
-            if (itemInCart.quantity == 1) {
+            if (itemInCart.quantity === 1) {
                 const removeFromCart = state.cart.filter((item) => item.id !== action.payload.id)
                 state.cart = removeFromCart
+                state.totalItems = state.totalItems - 1;
             }else{
                 itemInCart.quantity--;
+                 state.totalItems --;
             }
         },
         clearCart: (state) => {
             state.cart = [];
+            state.totalItems = 0; 
         },
     }
 });

@@ -14,19 +14,20 @@ const Welcome = () => {
     return (
         <View style={styles.container}>
             <ImageBackground
-                source={require('../assets/welcom.jpg')}
+                source={require('../assets/welcome.jpg')}
                 style={styles.backgroundImage}
             >
-            <View style={styles.text}>
-                <Text style={styles.welcomeText} >Welcome to Mills</Text>
-            </View>
-            <View style={styles.buttons}>
-                <Text  style={styles.Line}>Where you're always the special of the day. Sit back, relax, and let us take care of the rest 🍽️.</Text>
+            {/* <View style={styles.text}>
+               
+            </View> */}
+
+
+                <View >
                 <TouchableOpacity   style={styles.buttonLog} onPress={() => navigation.navigate('Login')}><Text style={styles.buttonText} >Login</Text></TouchableOpacity>
                 
-                <TouchableOpacity  style={styles.buttonReg} onPress={() => navigation.navigate('Registration')}><Text style={styles.buttonText}> Register</Text></TouchableOpacity>
-
-            </View>
+                <TouchableOpacity  style={styles.buttonReg} onPress={() => navigation.navigate('Registration')}><Text style={styles.buttonTextReg}> Register</Text></TouchableOpacity>
+                </View>
+           
             </ImageBackground>
         </View>
     )
@@ -38,18 +39,17 @@ const styles = StyleSheet.create({
         alignItems: 'baseline',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 3,
+       
 
     },
-    welcomeText: {
-        fontSize: 34,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontFamily: 'Courier New',
-        paddingBottom: 200,
-        color:'#bd6900'
+    backgroundImage:{
+        width:'100%',
+        height:'100%',
+        justifyContent: 'center',
+        alignItems: 'center',
 
     },
+   
     buttons: {
         flex: 1,
         width: 400,
@@ -59,14 +59,13 @@ const styles = StyleSheet.create({
         marginTop: 20,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: '#FFF7FA',
+        // backgroundColor: '#FFF7FA',
         borderTopEndRadius: 60,
         borderTopStartRadius: 60,
-        paddingBottom:70,
+        paddingBottom:-170,
         
     },
     text: {
-        
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center'
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     buttonReg:{
-        backgroundColor: '#3a312b',
+        backgroundColor: 'white',
         padding: 15,
         borderRadius: 15,
         width: 300,
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
         height:'auto'
     },
     buttonLog:{
-        backgroundColor: '#bd9a6f',
+        backgroundColor: 'orange',
         padding: 15,
         borderRadius: 15,
         marginBottom: 10,
@@ -95,11 +94,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height:'auto',
     },
-    Line:{
-        paddingBottom:110,
-        paddingTop:60,
-        fontFamily:'Times New Roman',
-        fontSize:27,
+    buttonTextReg:{
+        color: 'black',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
     }
 
 

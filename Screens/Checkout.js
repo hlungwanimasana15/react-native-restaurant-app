@@ -60,14 +60,32 @@ const Checkout = () => {
   }
   const handlePlaceOrder = async () => {
 
-    const ordersRef = doc(db, 'orders', user.uid);
-    const ordersInfo = { user, params }
-    await setDoc(ordersRef, {
+  
+    Alert.alert(
+      'Confirm Order',
+      'Are you sure you want to place the order?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Place Order',
+          onPress: async () => {
+            const ordersRef = doc(db, 'orders', user.uid);
+            const ordersInfo = { user, params };
+            await setDoc(ordersRef, {
+              dish: params,
+              userId: user.uid,
+            });
+            Alert.alert('Order Placed Successfully');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  
 
-      dish: params,
-      userId: user.uid
-
-    })
   };
 
   const CardDetails = async () => {
@@ -177,7 +195,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 90,
-    marginBottom:50
+    marginBottom:50,
+    backgroundColor:'#fff3e0'
   },
   title: {
     fontSize: 25,

@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { collection, getDocs, query, where, } from 'firebase/firestore';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native-paper';
 
 const Desserts = () => {
     useEffect(() => {
@@ -13,7 +14,7 @@ const Desserts = () => {
 
     const [desserts, setDesserts] = useState([])
     const navigation = useNavigation();
-
+    const [loading, setLoading] = useState(true);
     const fetchedData = [];
     const getDesserts = async () => {
 
@@ -66,7 +67,7 @@ const Desserts = () => {
           
   return (
     <View   style={styles.container} >
-          <View style={styles.Header}>
+          <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <AntDesign name="arrowleft" size={25} color="black" />
           </TouchableOpacity>
@@ -74,14 +75,41 @@ const Desserts = () => {
       </View>
       
     <View style={styles.manu} >
-         
-           
-          <FlatList
-            data={desserts}
-            renderItem={renderItem}
-            keyExtractor={(item) => item}
-          />
+    <ScrollView
+            vertical
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingBottom: 0,
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+              width:'100%'
+            }}
 
+          >
+           {desserts.map((item,index) =>(
+            <View style={styles.menuItem} key={index}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+    
+            <View style={styles.description}>
+              <Text style={styles.name}>{item.name}</Text>
+              <View style={styles.ratingContainer}>
+                <AntDesign name="staro" size={24} color="gold" style={styles.starIcon} />
+                <Text style={styles.ratingText}>{item.reviews}</Text>
+              </View>
+              <Text style={styles.price}>Price: R{item.price}</Text>
+            </View>
+    
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Products', { ...item })}
+              style={styles.plusButton}
+            >
+              <AntDesign name="plus" size={35} color="black" />
+            </TouchableOpacity>
+          </View>
+           ))}
+
+         
+          </ScrollView>
      </View >
   
      </View>
@@ -95,17 +123,17 @@ const styles = StyleSheet.create({
     menuItem: {
       borderRadius: 10,
       backgroundColor: 'white',
-      width: 170,
+      width: '48%',
       height: 290,
-      marginLeft: 10,
-      marginRight: 5,
-      marginTop: 10,
+      marginVertical:'1%',
+      marginHorizontal:'1%',
       padding: 20,
       shadowColor: 'black',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.3,
       shadowRadius: 4,
       elevation: 5,
+      display:'flex',
     },
     image: {
       width: 150,
@@ -145,6 +173,18 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-end',
       marginTop: -15,
     },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      marginBottom: 20,
+  
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    
   });
   
   
