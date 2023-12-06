@@ -121,7 +121,7 @@ const HomeScreen = () => {
 
             {/* image slider */}
             <View>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', fontFamily: 'times-new-roman',paddingBottom:'auto',color:'#ffa726'}}>New on our manu</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', fontFamily: 'times-new-roman',paddingBottom:'auto',color:'#ffa726'}}>New on our menu</Text>
             </View>
             <View style={styles.slider}>
                 
@@ -133,7 +133,7 @@ const HomeScreen = () => {
                   renderItem={renderItem}
                 />
               
-              <Text style={{ paddingTop: 15, fontSize: 20, fontWeight: 'bold', fontFamily: 'times-new-roman',color:'orange' }}>The manu</Text>
+              <Text style={{ paddingTop: 15, fontSize: 20, fontWeight: 'bold', fontFamily: 'times-new-roman',color:'orange' }}>The menu</Text>
 
             </View>
 
