@@ -42,7 +42,7 @@ const Registration = () => {
 
 
         <KeyboardAvoidingView style={styles.container}
-            behavior='padding'>
+            behavior='height'>
             <ImageBackground
                 source={require('../assets/signup.jpg')}
                 style={styles.backgroundImage}

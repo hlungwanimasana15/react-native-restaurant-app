@@ -1,17 +1,15 @@
-
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-
 const FoodItem = ({ item }) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Products', { ...item })}>
-       <View style={styles.container}>
+      <View style={styles.container}>
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={styles.iconContainer}>
           <AntDesign name="hearto" size={24} color="orange" />
@@ -21,13 +19,11 @@ const FoodItem = ({ item }) => {
       <View style={styles.description}>
         <Text style={styles.name}>{item.name}</Text>
         <View style={styles.ratingContainer}>
-            <Text style={styles.price}>Price: R{item.price}</Text>
+          <Text style={styles.price}>Price: R{item.price}</Text>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Products', { ...item })}
-        style={styles.plusButton}
-      >
+
+      <TouchableOpacity onPress={() => navigation.navigate('Products', { ...item })} style={styles.plusButton}>
         <AntDesign name="plus" size={35} color="orange" />
       </TouchableOpacity>
     </TouchableOpacity>
@@ -36,14 +32,13 @@ const FoodItem = ({ item }) => {
 
 const styles = StyleSheet.create({
   menuItem: {
+    // flex:1,
     borderRadius: 10,
     backgroundColor: 'white',
-    width: 170,
-    height: 290,
-    marginLeft: 10,
-    marginRight: 5,
-    marginTop: 10,
-    padding: 20,
+    width: "43%",
+    height: 250,
+    margin: 10,
+    padding: 10,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
@@ -51,63 +46,49 @@ const styles = StyleSheet.create({
     elevation: 5,
     position: 'relative',
   },
+  container: {
+    position: 'relative',
+    flex: 1,
+  },
   image: {
-    width: 150,
+    width: '100%',
     height: 150,
     borderRadius: 10,
-    alignSelf: 'center',
+  },
+  iconContainer: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'transparent',
   },
   description: {
-    marginTop: 10,
+    marginTop: -5,
     alignItems: 'center',
   },
   name: {
-    fontSize: 20,
+    fontSize: 15,
     color: 'black',
     fontWeight: 'bold',
-    marginLeft: -20,
-    marginRight: 0
+    marginLeft: 0,
+    marginRight: 0,
   },
   ratingContainer: {
-    flexDirection: 'colomn',
+    flexDirection: 'column',
     alignItems: 'flex-start',
-    marginTop: 5,
-    paddingRight: 10,
-    marginRight: 40
-
+     marginTop: -13,
+    paddingRight: 5,
+    marginRight: 20,
+    marginBottom:15
   },
- 
   price: {
-    marginTop: 5,
-    marginLeft: -20,
+    marginTop: 17,
+    marginLeft: -7,
   },
   plusButton: {
-    
     position: 'absolute',
     bottom: 20,
-    right: 10
+    right: 10,
   },
-  starContainer:{
-    flexDirection: 'row', 
-    alignItems: 'center', 
-  
-},iconContainer: {
-  position: 'absolute',
-  top: 10,
-  right: 10,
-  backgroundColor: 'transparent', // Set to transparent to allow the image to show through
-},
-header: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  paddingHorizontal: 10,
-  marginBottom: 20,
-
-},
-title: {
-  fontSize: 20,
-  fontWeight: 'bold',
-},
 });
 
 export default FoodItem;

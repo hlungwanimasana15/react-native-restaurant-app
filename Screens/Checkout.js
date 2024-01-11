@@ -89,7 +89,7 @@ const Checkout = () => {
   };
 
   const CardDetails = async () => {
-    setIsLoading(false);
+    setIsLoading(true);
     let name = {
       name: 'shops'
     }
@@ -144,9 +144,9 @@ const Checkout = () => {
   return (
     <>
     <ScrollView style={styles.container}>
-      <View style={styles.Header}>
+      <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <AntDesign name="arrowleft" size={25} color="black" />
+
         </TouchableOpacity>
         <Text style={styles.title}>Checkout</Text>
       </View>
@@ -160,32 +160,28 @@ const Checkout = () => {
       </View>
 
       <Text style={styles.ordersummary}>Order Summary</Text>
-      <View  style={{marginBottom:70}}>
-        <FlatList
-          data={ItemArray}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>  
+      <FlatList
+        data={ItemArray}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
 
-      
-     
-    </ScrollView>
-    <View style={styles.buttonContainer}>
-    <View style={styles.cardSection}>
-        <TouchableOpacity style={styles.payments} title="Pay here" onPress={() => CardDetails()}
-        ><MaterialIcons name="payment" size={64} color="black" />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.payments} title="Pay here" onPress={() => CardDetails()}>
+          <Text>Enter your card details </Text>
+          <MaterialIcons name="payment" size={64} color="black" />
+        </TouchableOpacity>
+
+        <View style={styles.totalSection}>
+          <Text style={styles.sectionTitle}>Order Total</Text>
+          <Text style={styles.totalAmount}>R {cart.calculateTotal}</Text>
+        </View>
+
+        <TouchableOpacity style={styles.placeOrderButton} onPress={() => handlePlaceOrder()}>
+          <Text style={styles.placeOrderButtonText}>Place Order</Text>
         </TouchableOpacity>
       </View>
-    <View style={styles.totalSection}>
-        <Text style={styles.sectionTitle}>Order Total</Text>
-        <Text style={styles.totalAmount}>R {cart.calculateTotal}</Text>
-      </View>
-    <TouchableOpacity style={styles.placeOrderButton} onPress={() => handlePlaceOrder()}>
-        <Text style={styles.placeOrderButtonText}>Place Order</Text>
-      </TouchableOpacity>
-    </View>
-     
+    </ScrollView>
     </>
   );
 };
@@ -193,26 +189,29 @@ const Checkout = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    paddingTop: 90,
-    marginBottom:50,
-    backgroundColor:'#fff3e0'
+  },
+  headerContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  backButton: {
+    marginRight: 10,
   },
   title: {
-    fontSize: 25,
+    color: '#ffa726',
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
+  },
+  addressSection: {
+    padding: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-  },
-  addressSection: {
-    marginBottom: 20,
-    padding: 16,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
   },
   addressText: {
     fontSize: 16,
@@ -220,78 +219,51 @@ const styles = StyleSheet.create({
   },
   changeAddressText: {
     color: 'blue',
-    textDecorationLine: 'underline',
+    fontSize: 16,
+  },
+  ordersummary: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 20,
+    marginVertical: 10,
+  },
+  itemContainer: {
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  buttonContainer: {
+    padding: 20,
+    flexDirection: 'column',
+    
+   
+  },
+  payments: {
+    alignItems: 'center',
+    marginBottom: 20,
+    alignItems:'flex-start'
   },
   totalSection: {
-    marginBottom: 16,
-    marginHorizontal: 90,
-    flexDirection: 'row',
-    justifyContent: "space-between"
+    alignItems: 'center',
+    marginBottom: 20,
   },
   totalAmount: {
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  cardSection: {
-    flexDirection: 'row',
-    marginBottom: 16,
+    marginTop: 10,
   },
   placeOrderButton: {
     backgroundColor: 'green',
-    padding: 16,
+    padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-
   },
   placeOrderButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: 'white',
-  },
-  methodDrop: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  dropdownItems: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    paddingHorizontal: 10,
-    borderCurve: 30,
-    width: 90,
-    height: 20,
-
-  },
-
-  buttonText: {
-    color: 'white',
+    fontSize: 16,
     fontWeight: 'bold',
   },
-  Header: {
-    flexDirection: 'row'
-  },
-  ordersummary: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  itemContainer: {
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 20,
-    paddingBottom: 10,
-  },
-  buttonContainer:{
-    paddingBottom:40,
-    paddingHorizontal:20
-
-  }
 });
 
 export default Checkout;

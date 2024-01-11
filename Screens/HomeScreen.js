@@ -91,31 +91,21 @@ const HomeScreen = () => {
                   <Image source={require('../assets/icecream.png')} style={styles.categoryImage} />
                   <Text style={styles.categoryText}>Desserts</Text>
                 </TouchableOpacity>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={true}>
-
                   <TouchableOpacity style={styles.categoryButton} onPress={() => navigation.navigate('Maincourse')}>
                     <Image source={require('../assets/main.png')} style={styles.categoryImage} />
                     <Text style={styles.categoryText}>Main Course</Text>
                   </TouchableOpacity>
-                </ScrollView>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={true}>
+               
                   <TouchableOpacity style={styles.categoryButton} onPress={() => navigation.navigate('Beverages')}>
                     <Image source={require('../assets/drink.png')} style={styles.categoryImage} />
                     <Text style={styles.categoryText}>Beverages</Text>
                   </TouchableOpacity>
-                </ScrollView>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={true}>
+               
                   <TouchableOpacity style={styles.categoryButton} onPress={() => navigation.navigate('Starters')}>
                     <Image source={require('../assets/olives.png')} style={styles.categoryImage} />
                     <Text style={styles.categoryText}>Starters</Text>
                   </TouchableOpacity>
-                </ScrollView>
+                
               </ScrollView>
             </View>
 

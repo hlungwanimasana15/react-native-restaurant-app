@@ -96,7 +96,7 @@ const Cart = ({ item }) => {
         <View>
         <Image source={{ uri: item.image }} style={{ width: 80, height: 80 }} />
         </View>
-        <View style={{marginLeft:-50}}>
+        <View style={{marginLeft:-15}}>
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemPrice}>R{item.price}</Text>
         </View>

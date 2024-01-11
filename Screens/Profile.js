@@ -35,7 +35,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 const Profile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+
   const { user } = useSelector((state) => state.user);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -100,16 +102,14 @@ const Profile = () => {
       });
       console.log("dishArray", ordersDish);
       ordersDish[0].forEach((doc, index) => {
-       console.log(doc.image);
+        console.log(doc.image);
       });
       setHistoryOrder(orders);
-      setHistoryOrder2(ordersDish[0])
+      setHistoryOrder2(ordersDish[0]);
     } catch (error) {
       console.log("failed to get Starters");
     }
   };
-
-  // console.log('OUTSIDEEEEEE',historyOrder );
 
   const EditUserInfo = async () => {
     try {
@@ -144,6 +144,7 @@ const Profile = () => {
         const userCollection = collection(db, "usersInformation");
         const userDocRef = doc(userCollection, userId);
         const userDocSnapshot = await getDoc(userDocRef);
+       
         if (userDocSnapshot.exists()) {
           console.log("userid", userId);
           const userData = userDocSnapshot.data();
@@ -184,32 +185,15 @@ const Profile = () => {
     }
   }, [userInfo]);
 
-  // useEffect(() => {
-  //   fetchData();
-  //   const fetchOrderHistory = async () => {
-  //     const currentUser = getAuth().currentUser;
-  //     const uid = currentUser.uid;
-
-  //     const db = getFirestore();
-  //     const userRef = collection(db, "orders");
-  //     const querySnapshot = await getDocs(
-  //       query(userRef, where("uid", "==", uid))
-  //     );
-
-  //     querySnapshot.forEach((doc) => {
-  //       const fetchedUserData = doc.data();
-  //       setUserData(fetchedUserData);
-  //       console.log("----------", fetchedUserData);
-  //     });
-  //   };
-  //   fetchOrderHistory();
-  // }, []);
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const dateFormatOptions = {
@@ -227,22 +211,6 @@ const Profile = () => {
     OrderHistory();
   }, []);
 
-  // const renderItem = ({ item }) => {
-  //   return (
-  //     <View style={styles.cartItem}>
-  //       <View>
-  //         <Image
-  //           source={{ uri: item.image }}
-  //           style={{ width: 80, height: 80 }}
-  //         />
-  //       </View>
-  //       <View style={{ marginLeft: -50 }}>
-  //         <Text style={styles.itemName}>{item.name}</Text>
-  //         <Text style={styles.itemPrice}>R{item.price}</Text>
-  //       </View>
-  //     </View>
-  //   );
-  // };
 
   return (
     <View style={styles.container} behavior="padding">
@@ -250,7 +218,7 @@ const Profile = () => {
         <View
           style={{
             backgroundColor: "white",
-            height: "15%",
+            // height: "15%",
             width: "100%",
             paddingTop: -20,
           }}
@@ -284,7 +252,7 @@ const Profile = () => {
                 style={{
                   marginTop: 20,
                   alignItems: "flex-end",
-                  top: -75,
+                  top: -130,
                   padding: 10,
                 }}
               >
@@ -304,19 +272,23 @@ const Profile = () => {
                 )}
               </View>
             </TouchableOpacity>
-          </View>
+        
 
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-around",
               marginTop: -30,
-              paddingTop: 30,
+              paddingTop: "-40%",
+              paddingHorizontal:10,
+              gap:10,
+              
             }}
           >
             <TouchableOpacity
               onPress={() => OrderHistory()}
               style={{
+                flex:1,
                 alignItems: "center",
                 alignItems: "center",
                 borderWidth: 1,
@@ -332,6 +304,7 @@ const Profile = () => {
             <TouchableOpacity
               // onPress={handleFavorites}
               style={{
+                flex:1,
                 alignItems: "center",
                 alignItems: "center",
                 borderWidth: 1,
@@ -347,6 +320,8 @@ const Profile = () => {
             <TouchableOpacity
               // onPress={handleEditProfile}
               style={{
+                flex:1,
+
                 alignItems: "center",
                 alignItems: "center",
                 borderWidth: 1,
@@ -360,8 +335,7 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
         </View>
-
-
+        </View>
         <View style={styles.inputContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Your Details</Text>
@@ -396,18 +370,7 @@ const Profile = () => {
             onChangeText={(text) => setEmail(text)}
             style={styles.input}
           ></TextInput>
-          <TextInput
-            placeholder="Card Number"
-            value={cardNumber}
-            onChangeText={(text) => setCardNumber(text)}
-            style={styles.input}
-          ></TextInput>
-          <TextInput
-            placeholder="Card Name"
-            value={cardName}
-            onChangeText={(text) => setCardName(text)}
-            style={styles.input}
-          ></TextInput>
+  
         </View>
         <View style={styles.buttons}>
           <View style={{ width: "100%" }}>
@@ -426,7 +389,7 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ }}>
+        <View style={{paddingBottom:10}}>
           {historyOrder2.map((order, index) => (
             <View key={index} style={styles.cartItem}>
               <View>
@@ -435,7 +398,7 @@ const Profile = () => {
                   style={{ width: 80, height: 80 }}
                 />
               </View>
-              <View style={{ marginLeft: 10}}>
+              <View style={{ marginLeft: 10 }}>
                 <Text style={styles.itemName}>{order.name}</Text>
                 <Text style={styles.itemPrice}>R{order.price}</Text>
               </View>
@@ -450,17 +413,13 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    // justifyContent: "center",
-    // alignItems: "center",
+    padding:3
   },
   inputContainer: {
     width: "90%",
-    marginTop: 15,
-    // margin: 40,
+    marginTop:'30',
     paddingLeft: 40,
-    // height:160,
-    // paddingVertical:10
+   
   },
   input: {
     backgroundColor: "white",
@@ -573,20 +532,20 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: 16,
-    paddingLeft:100,
-    display:'flex',
-     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingLeft: 100,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   itemPrice: {
     fontSize: 16,
-    fontWeight: 'bold',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingLeft:100,
-    paddingTop:4
+    fontWeight: "bold",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingLeft: 100,
+    paddingTop: 4,
   },
 });
 export default Profile;
