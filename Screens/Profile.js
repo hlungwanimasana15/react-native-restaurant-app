@@ -38,6 +38,8 @@ const Profile = () => {
 
   const { user } = useSelector((state) => state.user);
 
+  const [showOrderHistory, setShowOrderHistory] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -286,7 +288,7 @@ const Profile = () => {
             }}
           >
             <TouchableOpacity
-              onPress={() => OrderHistory()}
+              onPress={() => setShowOrderHistory(true)}
               style={{
                 flex:1,
                 alignItems: "center",
@@ -318,7 +320,7 @@ const Profile = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              // onPress={handleEditProfile}
+              onPress={ () => {setShowEditProfile(true)}}
               style={{
                 flex:1,
 
@@ -336,6 +338,8 @@ const Profile = () => {
           </View>
         </View>
         </View>
+        {showEditProfile && (
+          <View>
         <View style={styles.inputContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Your Details</Text>
@@ -370,8 +374,8 @@ const Profile = () => {
             onChangeText={(text) => setEmail(text)}
             style={styles.input}
           ></TextInput>
-  
         </View>
+       
         <View style={styles.buttons}>
           <View style={{ width: "100%" }}>
             <TouchableOpacity
@@ -380,7 +384,7 @@ const Profile = () => {
             >
               <Text style={styles.buttonOutlineText}>Save changes</Text>
             </TouchableOpacity>
-
+           
             <TouchableOpacity
               style={styles.logoutButton}
               onPress={handleLogout}
@@ -389,9 +393,18 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
         </View>
+        </View>
+         )}
+        
+        {showOrderHistory && (
         <View style={{paddingBottom:10}}>
+          <View>
+             <Text style={styles.title} >History orders</Text>
+             </View>
           {historyOrder2.map((order, index) => (
+           
             <View key={index} style={styles.cartItem}>
+             
               <View>
                 <Image
                   source={{ uri: order.image }}
@@ -405,6 +418,7 @@ const Profile = () => {
             </View>
           ))}
         </View>
+        )}
       </ScrollView>
     </View>
   );
